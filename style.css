@@ -1,0 +1,86 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  
+  html {
+    font-family: system-ui;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+  
+  body {
+    display: grid;
+    place-content: center;
+    min-height: 100svh;
+  }
+  
+  article {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    border: 2px solid;
+    border-radius: 1rem;
+    width: min(100% - 4rem, 1000px);
+    margin-inline: auto;
+    & img {
+      max-width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 2px solid;
+      border-radius: 1rem;
+    }
+  }
+  
+  header {
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+    & div {
+      margin-top: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+  }
+  
+  a:link.btn  {
+    font-size: 1.125rem;
+    font-weight: 600;
+    background: hsl(0, 0%, 0%);
+    color: hsl(0, 0%, 100%);
+    border: 1px solid hsl(0, 0%, 0%);
+    padding: .7em 2em;
+    border-radius: .5em;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    display: inline-block;
+    transition: all 100ms ease-in-out;
+  }
+  
+  a:visited.btn {
+      background: hsl(275, 100%, 25%);
+      color: hsl(0, 0%, 100%);
+      border: 1px solid hsl(0, 0%, 0%);
+  }
+  
+  a:hover.btn {
+    background: hsl(0, 0%, 100%);
+    border: 1px solid hsl(0, 0%, 0%);
+    color: hsl(0, 0%, 0%);
+  }
+  
+  a:focus-visible.btn {
+    outline: 2px solid hsl(225, 100%, 50%);
+    outline-offset: 4px;
+    background: hsl(0, 0%, 100%);
+    color: hsl(0, 0%, 0%);
+  }
+
+  figure {
+    display: flex;
+    flex-flow: column;
+    margin: auto;
+  }
