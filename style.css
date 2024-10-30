@@ -4,11 +4,10 @@
   }
   
 html {
-  font-size: clamp(100%, 90% + 0.5vi, 150%);
   font-family: system-ui;
+  font-size: 1.125rem;
   text-wrap: pretty;
   line-height: 1.5;
-  /* color: hsl(35, 15%, 90%); */
 }
 
 body {
@@ -50,13 +49,18 @@ article {
   }
 }
 
+#storyQuestion {
+  font-size: 1.125rem;
+  margin-top: auto;
+  font-weight: 700;
+}
+
 header {
   display: flex;
   flex-flow: column;
   justify-content: flex-start;
   gap: 0.5rem;
   & div {
-    margin-top: auto;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -65,6 +69,7 @@ header {
 
 #pageHeader {
   text-align: center;
+  align-items: center;
   margin-top: 1rem;
 }
 
