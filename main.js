@@ -1,20 +1,26 @@
 window.addEventListener("DOMContentLoaded", main);
+/** Global variables for story and paragraf header, and story image */
+const storyTitle = document.getElementById("storyTitle");
+const storyText = document.getElementById("storyText");
+const storyImage = document.getElementById("storyImage");
+const storyBook = document.getElementById("storyBook");
+const storyStart = document.getElementById("storyStart");
 
 /** Starting point of program */
 function main() {
     console.log("Check Start of program"); // Check program
     setupEventListerners();
+    
+    storyBook.style.display = "none";
 };
 
-/** Setup Eventlisteners for Toggle-functions */
+/** Setup Eventlisteners for first function */
 function setupEventListerners() {
-    burgerMenu.onclick = toggleHeaderOpen;
+    storyStart.onclick = gotoSceneOne;
 }
 
 /** Scene 1 */
-function toggleHeaderOpen() {
-    const header = document.getElementById("header");
-    const nav = document.querySelector(".nav__primary");
-    header.classList.toggle("headerOpen");
-    nav.classList.toggle("nav--visible");
+function gotoSceneOne() {
+    storyBook.style.display = "grid";
+    storyStart.style.display = "none";
 };
