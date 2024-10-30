@@ -37,18 +37,15 @@ article {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: 2rem;
   padding: 2rem;
-  /* border: 2px solid; */
   border-radius: 1rem;
   width: min(100% - 2rem, 1200px);
   margin-inline: auto;
   margin-bottom: 1rem;
-  background: hsl(35, 15%, 80%);
-  /* background: hsl(0, 0%, 20%); */
+  background: hsl(45, 10%, 50%);
   & img {
     max-width: 100%;
     height: 100%;
     object-fit: cover;
-    border: 2px solid;
     border-radius: 1rem;
   }
 }
@@ -79,10 +76,12 @@ header {
 
 #pageParagraf {
   font-size: clamp(1.125rem, 1.0598rem + 0.3261vw, 1.3125rem);
+  font-weight: 300;
 }
 
 #pageTitle {
   font-size: clamp(2.0625rem, 1.4103rem + 3.2609vw, 3.9375rem);
+  font-weight: 900;
 }
 
 @media (prefers-reduced-motion: no-preference) {
