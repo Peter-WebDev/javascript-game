@@ -1,17 +1,19 @@
-window.addEventListener("DOMContentLoaded", createMain);
+window.addEventListener("DOMContentLoaded", main);
 /** Global variables for story and paragraf header, and story image */
 const storyTitle = document.getElementById("storyTitle");
 const storyText = document.getElementById("storyText");
 const storyImage = document.getElementById("storyImage");
 const storyBook = document.getElementById("storyBook");
 const storyStart = document.getElementById("storyStart");
+
+/** Göra om till en array? */
 const east = document.getElementById("east");
 const west = document.getElementById("west");
 const north = document.getElementById("north");
 const south = document.getElementById("south");
 
 /** Starting point of program */
-function createMain() {
+function main() {
     console.log("Check Start of program"); // Check program
     setupEventListerners();
     
@@ -20,7 +22,7 @@ function createMain() {
 
 /** Setup Eventlisteners for first function */
 function setupEventListerners() {
-    storyStart.onclick = sceneMainOne;
+    storyStart.onclick = createSceneMainOne;
 }
 
 /** Scene Main One */
