@@ -51,7 +51,7 @@ function createSceneAltMainOne() {
 
 /** Scene Forest One */
 function createSceneForestOne() {
-    storyImage.src = 'https://picsum.photos/id/62/800/600.webp';
+    storyImage.src = 'assets/image/an-old-merchant-by-the-campfire-surrounded-by-gnarly-trees.webp';
     south.style.display = "inline-block";
     storyTitle.innerText = "The Forest is watching";
     storyText.innerHTML = "<p>As you walked further into the forest, you couldn't shake the feeling that you were being watched. The trees seemed to lean in, their gnarled branches reaching out like skeletal fingers. The sunlight, once warm and inviting, now seemed to cast an eerie glow on the forest floor.</p><p>As you start to quickened your pace, hoping to escape the oppressive silence, you see a hooded figure standing in the shadows. The figure stepped into the light, revealing a merchant with a wide grin and a bag full of peculiar items.</p><p>The merchant offered you a variety of magical trinkets, potions, and weapons. He spoke of ancient relics, lost treasures, and forbidden knowledge. You were very intrigued by a certain item. A ring with an Adamas, the most powerful of all gemstones in the fight against evil. However, the merchant's appearance in such a remote and dangerous place was unsettling.</p>";
