@@ -175,7 +175,7 @@ function createSceneMainOne() {
 
   /** Change story image SceneMainOne */
   const storyImage = document.getElementById("storyImage");
-  storyImage.src = "assets/image/dense-grey-forest-pexels-eberhardgross.webp";
+  storyImage.src = "assets/image/hazy-sunlight-shines-through-a-forest-with-large-rocks.webp";
   
   /** Create the buttons SceneMainOne */
   createButton(0, "west", createSceneForestOne, storyButtons);
@@ -231,7 +231,7 @@ function createSceneAltMainOne() {
 
   /** Change story image SceneMainOne */
   const storyImage = document.getElementById("storyImage");
-  storyImage.src = "assets/image/dense-grey-forest-pexels-eberhardgross.webp";
+  storyImage.src = "assets/image/hazy-sunlight-shines-through-a-forest-with-large-rocks.webp";
   
   /** Create the buttons SceneMainOne */
   createButton(0, "west", createSceneForestOne, storyButtons);
@@ -343,7 +343,7 @@ function createSceneForestTwo() {
 
   /** Change story image SceneMainOne */
   const storyImage = document.getElementById("storyImage");
-  storyImage.src = "assets/image/a-very-dark-and-green-forest-with-big-boulders.webp";
+  storyImage.src = "assets/image/large-mossy-rock-in-black-forest-small-various-flowers-and-mushrooms.webp";
   
   /** Create the buttons for scene */
   createButton(2, "north", createSceneForestOne, storyButtons);
@@ -401,7 +401,7 @@ function createSceneForestThree() {
 
   /** Change story image SceneMainOne */
   const storyImage = document.getElementById("storyImage");
-  storyImage.src = "assets/image/an-old-merchant-by-the-campfire-surrounded-by-gnarly-trees.webp";
+  storyImage.src = "assets/image/gnarly-tree-with-lots-of-gems-and-trinkets-on-the-ground.webp";
   
   /** Create the buttons for scene */
   createButton(2, "north", createSceneForestTwo, storyButtons);
@@ -459,7 +459,7 @@ function createSceneForestDeath() {
 
   /** Change story image SceneMainOne */
   const storyImage = document.getElementById("storyImage");
-  storyImage.src = "assets/image/an-old-merchant-by-the-campfire-surrounded-by-gnarly-trees.webp";
+  storyImage.src = "assets/image/large-magic-meadow-with-endless-of-various-colors.webp";
   
   /** Create the buttons for the Scene*/
   createButton(6, "retry", createSceneAltMainOne, storyButtons);
@@ -508,7 +508,7 @@ function createSceneFinal() {
   storySection.className = "storyText";
 
   // Text to be split
-  const text = `You cautiously approached the ancient tree, your heart pounding with anticipation. As you drew closer, you noticed a small, glowing orb nestled within the tree's roots. You reached out and gently touched the orb, and it pulsed with energy. A surge of power flowed through you, and you suddenly seemed to be transported into the tree.\nYou found yourself in a vast cavern, its walls adorned with glittering gemstones of every color imaginable. Diamonds, rubies, sapphires, and emeralds sparkled under the soft, ethereal light.\n"Well, well, well..." someone chuckled, "At last we meet, ` + storyName + `". \nIn the center of the cavern, an old gnome sat upon a throne of gold, his eyes twinkling with mischief.\nYou were stunned by the sight before you. The gnome, though small, exuded an aura of power and wisdom. He gestured towards a mountain of treasure, "Take what you desire, young one. A reward for your courage and curiosity."\nYou carefully selected a few of the most dazzling gems and a few rings, each more beautiful than the last. As you reached for a particularly large diamond, the gnome's eyes twinkled.\n"That one," he said, "is a gift. A token of your bravery."\nWith a wave of his hand, the diamond floated towards you. As you took it, a surge of power coursed through you, and you felt a newfound strength and agility.\n"Thank you," you said, your voice filled with gratitude. The gnome smiled. "Remember, with great power comes great responsibility. Use this wisely."\nWith a final nod, the gnome vanished, and you found yourself back in the forest, the ancient tree looming before you. The glowing orb was gone, leaving behind only a sense of wonder and fulfillment.\nThe end.`;
+  const text = `As you drew closer, you noticed a small, glowing orb nestled within the tree's roots. You reached out and gently touched the orb, and it pulsed with energy. A surge of power flowed through you, and you were transported into the tree.\nYou found yourself in a vast cavern, its walls adorned with glittering gemstones of every color imaginable. Diamonds, rubies, sapphires, and emeralds sparkled under the soft, ethereal light.\n"Well, well, well..." someone chuckled, "At last we meet, ` + storyName + `". \nIn the center of the cavern, an old gnome sat upon a throne of gold, his eyes twinkling with mischief.\nThe gnome, though small, exuded an aura of power and wisdom. He gestured towards a mountain of treasure, "Take what you desire, young one. A reward for your courage and curiosity."\nYou carefully selected a few of the most dazzling gems and a few rings, each more beautiful than the last. As you reached for a particularly large diamond, the gnome's eyes twinkled.\n"That one," he said, "is a gift. A token of your bravery."\nWith a wave of his hand, the diamond floated towards you. As you took it, a surge of power coursed through you, and you felt a newfound strength and agility.\n"Thank you," you said, your voice filled with gratitude. The gnome smiled. "Remember, with great power comes great responsibility. Use this wisely."\nWith a final nod, the gnome vanished, and you found yourself back in the forest, the ancient tree looming before you. The glowing orb was gone, leaving behind only a sense of wonder and fulfillment.\nThe end.`;
   text.id = "storyText";
 
   // The Split function using .split() and a for loop creating separate paragraphs
@@ -536,7 +536,7 @@ function createSceneFinal() {
 
   /** Change story image SceneMainOne */
   const storyImage = document.getElementById("storyImage");
-  storyImage.src = "assets/image/an-old-merchant-by-the-campfire-surrounded-by-gnarly-trees.webp";
+  storyImage.src = "assets/image/a-gnome-inside-a-large-tree-is-surrounded-by-gems-trinkets.webp";
   
   /** Create the buttons for the Scene*/
   createButton(10, "playagain", main, storyButtons);
