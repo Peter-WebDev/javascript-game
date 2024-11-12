@@ -1,27 +1,135 @@
-window.addEventListener("DOMContentLoaded", loadScene);
+window.addEventListener("DOMContentLoaded", main);
 
-/** Function load current scene */
+let gameState = {
+  name: "",
+  money: 50,
+  inventory: ["Knife"],
+  scene: "StartScene"
+};
+
+function setName(name) {
+  gameState.name = name;
+  saveGameState();
+}
+
+/** Set Money
+ * 
+ * @param {*} name 
+ */
+function setMoney(name) {
+  gameState.scene = name;
+  saveGameState();
+}
+
+/** Set Inventory
+ * 
+ * @param {*} name 
+ */
+function setInventory(name) {
+  gameState.name = name;
+  saveGameState();
+}
+
+/** Set Scene
+ * 
+ * @param {*} name 
+ */
+function setScene(name) {
+  gameState.scene = name;
+  saveGameState();
+}
+
+/** Load current scene
+ * 
+ * @param {*} sceneName 
+ */
 function loadScene(sceneName) {
   console.log("loadScene");
   switch (sceneName) {
-    case "createSceneMainOne":
-      createSceneMainOne();
+    case "SceneMain":
+      createSceneMain();
+      console.log("Scene:", sceneName);
       break;
-    case "createSceneForestOne":
+    case "SceneAltMain":
+      createSceneAltMain();
+      console.log("Scene:", sceneName);
+      break;
+    case "SceneForestOne":
       createSceneForestOne();
+      console.log("Scene:", sceneName);
       break;
-    case "createSceneForestTwo":
+    case "SceneForestTwo":
       createSceneForestTwo();
+      console.log("Scene:", sceneName);
       break;
-    case "createSceneForestThree":
+    case "SceneForestThree":
       createSceneForestThree();
+      console.log("Scene:", sceneName);
       break;
-    case "createSceneFinal":
+    case "SceneFinal":
       createSceneFinal();
+      console.log("Scene:", sceneName);
     default:
-      console.log("Unknown saved scene:", sceneName);
-      main();
+      loadStartScene();
+      console.log("Scene:", sceneName);
   }
+}
+
+/** Functions to handle username */
+function saveUserInfo(event) {
+  event.preventDefault();
+  const nameInput = document.getElementById("storyName");
+  const name = nameInput.value;
+  
+  if (name) {
+    gameState.name = name;
+  } else {
+    gameState.name = "Stranger";
+  }
+  // localStorage.setItem("storyName", name);
+  const node = document.getElementById("formStoryName");
+  if (node.parentNode) {
+    node.parentNode.removeChild(node);
+  }
+
+  setName(gameState.name);
+  createSceneMain();
+}
+
+function loadUserInfo() {
+  let storyName = gameState.name;
+
+  if (storyName) {
+    return storyName;
+  } else {
+    return "Stranger";
+  }
+}
+
+/** Functions for handling the state of the game */
+function saveGameState() {
+  localStorage.setItem("gameState", JSON.stringify(gameState));
+}
+
+function loadGameState() {
+  const gameStateData = JSON.parse(localStorage.getItem("gameState"));
+  if (gameStateData) {
+    return gameStateData;
+  }
+  return null;
+}
+
+function clearGameState() {
+  localStorage.removeItem("gameState");
+}
+
+/** Load current saved state */
+function main() {
+  const savedState = loadGameState();
+  if (savedState) {
+    gameState = savedState;
+  }
+  loadScene(gameState.scene); // Trigger the loadScene
 }
 
 /** Create Buttons from the global array */
@@ -36,13 +144,15 @@ function createButton(index, id, onClickNextFunction, container) {
 }
 
 /** Starting point of program */
-function main() {
-  const pageHeader = document.getElementById("pageHeader");
-  pageHeader.innerHTML = "";
-
+function loadStartScene() {
+  console.log(gameState.scene);
+  
   const book = document.getElementById("storyBook");
   book.style.display = "none";
-
+  
+  const pageHeader = document.getElementById("pageHeader");
+  pageHeader.innerHTML = "";
+  
   // Create p element above the h1
   const pageParagraf = document.createElement("p");
   pageParagraf.textContent = "A tale from the woods";
@@ -74,73 +184,18 @@ function main() {
   form.appendChild(inputField);
 
   createButton(9, "storyStart", saveUserInfo, form);
-
-  /** Load current saved state */
-  const savedState = loadGameState();
-  if (savedState) {
-    loadScene(savedState.scene); // Trigger the loadScene
-  } else {
-    // Iinitial new state
-    let gameState = {
-      money: 50,
-      inventory: ["Knife"]
-    };
-    createSceneMainOne(gameState); // If no saved state, create Main Scene
-    }
-}
-
-/** Functions to handle username */
-function saveUserInfo(event) {
-  event.preventDefault();
-  const nameInput = document.getElementById("storyName");
-  localStorage.setItem("storyName", nameInput.value);
-
-  const node = document.getElementById("formStoryName");
-  if (node.parentNode) {
-    node.parentNode.removeChild(node);
-  }
-
-  createSceneMainOne();
-}
-
-function loadUserInfo() {
-  let storyName = localStorage.getItem("storyName");
-
-  if (storyName) {
-    return storyName;
-  } else {
-    return "Stranger";
-  }
-}
-
-/** Functions for handling the state of the game */
-function saveGameState(sceneName, gameState) {
-  const gameStateData = {
-    scene: sceneName,
-    state: gameState
-  };
-  localStorage.setItem("gameState", JSON.stringify(gameStateData));
-}
-
-function loadGameState() {
-  const gameStateData = JSON.parse(localStorage.getItem("gameState"));
-  if (gameStateData) {
-    return gameStateData;
-  }
-  return null;
-}
-
-function clearGameState() {
-  localStorage.removeItem("gameState");
 }
 
 /** Scene Main One */
-function createSceneMainOne() {
+function createSceneMain() {
+  console.log(gameState.scene);
   const book = document.getElementById("storyBook");
   book.style.display = "grid";
 
   const storyHeader = document.getElementById("storyHeader");
   storyHeader.innerHTML = "";
+
+  const pageHeader = document.create
 
   // Get the characters name
   const storyName = loadUserInfo();
@@ -156,7 +211,7 @@ function createSceneMainOne() {
   storySection.className = "storyText";
 
   // Text to be split
-  const text = 'You stand at the edge of an ancient forest, the sun dappling through the canopy. The air is thick with the scent of pine needles and damp earth, and the only sound is the gentle rustle of leaves. A sense of wonder and trepidation fills you as you look around.\nThe trees, ancient and gnarled, towered above, their branches intertwining to form a dense canopy. Strange, otherworldly sounds echoed through the undergrowth—the distant howl of a wolf, the eerie chirping of unseen insects. A surge of curiosity and a hint of trepidation fill your heart. You know that danger lurks in the shadows, but the allure of the unknown and treasures is too strong to resist.\nTo the west, a path winds down to an opening into the ancient forest. To the east, a narrow passage, barely wide enough for a single person, wound its way between the large rocks.';
+  const text = 'You stand at the edge of an ancient forest, the sun dappling through the canopy. The air is thick with the scent of pine needles and damp earth, and the only sound is the gentle rustle of leaves. A sense of wonder and trepidation fills you as you look around.\nStrange, otherworldly sounds echoed through the undergrowth—the distant howl of a wolf, the eerie chirping of unseen insects. A surge of curiosity and a hint of trepidation fill your heart. You know that danger lurks in the shadows, but the allure of the unknown and treasures is too strong to resist.\nTo the west, a path winds down to an opening into the ancient forest. To the east, a narrow passage, barely wide enough for a single person, wound its way between the large rocks.';
   text.id = "storyText";
 
   // The Split function using .split() and a for loop creating separate paragraphs
@@ -190,11 +245,13 @@ function createSceneMainOne() {
   createButton(0, "west", createSceneForestOne, storyButtons);
   createButton(1, "east", createSceneCaveOne, storyButtons);
 
-  saveGameState("createSceneMainOne");
+  gameState.scene = "SceneMain"
+  setScene(gameState.scene);
 }
 
 /** Scene Alt Main One */
-function createSceneAltMainOne() {
+function createSceneAltMain() {
+  console.log(gameState.scene);
   const storyHeader = document.getElementById("storyHeader");
   storyHeader.innerHTML = "";
 
@@ -245,10 +302,14 @@ function createSceneAltMainOne() {
   /** Create the buttons SceneMainOne */
   createButton(0, "west", createSceneForestOne, storyButtons);
   createButton(1, "east", createSceneCaveOne, storyButtons);
+
+  gameState.scene = "SceneAltMain";
+  setScene(gameState.scene);
 }
 
 /** Scene Forest One */
 function createSceneForestOne() {
+  console.log(gameState.scene);
   const storyHeader = document.getElementById("storyHeader");
   storyHeader.innerHTML = "";
 
@@ -297,15 +358,17 @@ function createSceneForestOne() {
   storyImage.src = "assets/image/an-old-merchant-by-the-campfire-surrounded-by-gnarly-trees.webp";
   
   /** Create the buttons SceneForestOne */
-  createButton(1, "east", createSceneMainOne, storyButtons);
+  createButton(1, "east", createSceneMain, storyButtons);
   createButton(3, "south", createSceneForestTwo, storyButtons);
   createButton(5, "buyitem", createSceneForestDeath, storyButtons);
 
-  saveGameState("createSceneForestOne", gameState);
+  gameState.scene = "SceneForestOne";
+  setScene(gameState.scene);
 }
 
 /** Scene Forest Two */
 function createSceneForestTwo() {
+  console.log(gameState.scene);
   console.log("Forest Two");
   const storyHeader = document.getElementById("storyHeader");
   storyHeader.innerHTML = "";
@@ -364,7 +427,7 @@ function createSceneForestTwo() {
 
 /** Scene Forest Three - Find a gem */
 function createSceneForestThree() {
-  console.log("Forest Three");
+  console.log(gameState.scene);
   const storyHeader = document.getElementById("storyHeader");
   storyHeader.innerHTML = "";
 
@@ -471,7 +534,7 @@ function createSceneForestDeath() {
   storyImage.src = "assets/image/large-magic-meadow-with-endless-of-various-colors.webp";
   
   /** Create the buttons for the Scene*/
-  createButton(7, "retry", createSceneAltMainOne, storyButtons);
+  createButton(7, "retry", createSceneAltMain, storyButtons);
   createButton(8, "new", main, storyButtons);
 
   saveGameState("createSceneForestDeath", gameState);
