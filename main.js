@@ -366,14 +366,14 @@ function createSceneForestThree() {
   const title = document.createElement("h2");
   title.id = "storyTitle";
   title.className = "storytitle";
-  title.textContent = "The trees are watching you, " + storyName + "";
+  title.textContent = "A glimpse of magic";
 
   // Create section for the paragraphs
   const storySection = document.createElement("section");
   storySection.className = "storyText";
 
   // Text to be split
-  const text = `As you delved deeper, the forest began to change. The trees grew taller, their leaves shimmering with an otherworldly glow. The air was filled with a sweet, floral scent, and the ground was soft and mossy. You felt a surge of energy, as if the forest itself was invigorating you.\nSuddenly, you stumbled upon a hidden clearing. In the center, a massive, ancient tree stood, its branches reaching towards the sky.\n"Ohh a gemstone ..." you said loudly your mind.\nA small gemstone revealed itself close to the tree. But this was no ordinary tree. Its trunk was adorned with intricate carvings, and its leaves glowed with a radiant light. As you approached, the tree seemed to come alive, its branches swaying gently in the breeze.`;
+  const text = `As you delved deeper, the forest began to change. The trees grew taller, their leaves shimmering with an otherworldly glow. The air was filled with a sweet, floral scent, and the ground was soft and mossy. You felt a surge of energy, as if the forest itself was invigorating you.\nSuddenly, you stumbled upon a hidden clearing. In the center, a massive, ancient tree stood, its branches reaching towards the sky. A small gemstone revealed itself close to the tree \n"Ohh a gemstone ..." you said loudly your mind.\nBut this was no ordinary tree. Its trunk was adorned with intricate carvings, and its leaves glowed with a radiant light. As you approached, the tree seemed to come alive, its branches swaying gently in the breeze.`;
   text.id = "storyText";
 
   // The Split function using .split() and a for loop creating separate paragraphs
@@ -501,14 +501,14 @@ function createSceneFinal() {
   const title = document.createElement("h2");
   title.id = "storyTitle";
   title.className = "storytitle";
-  title.textContent = "A tragic end for you, " + storyName + "";
+  title.textContent = "A treasure beyond imagination";
 
   // Create section for the paragraphs
   const storySection = document.createElement("section");
   storySection.className = "storyText";
 
   // Text to be split
-  const text = `You cautiously approached the ancient tree, your heart pounding with anticipation. As you drew closer, you noticed a small, glowing orb nestled within the tree's roots. You reached out and gently touched the orb, and it pulsed with energy. A surge of power flowed through you, and you suddenly seemed to be transported into the tree.\nYou found yourself in a vast cavern, its walls adorned with glittering gemstones of every color imaginable. Diamonds, rubies, sapphires, and emeralds sparkled under the soft, ethereal light.\n"Well, well, well..." someone chuckled, "A worthy adventurer at last." In the center of the cavern, an old gnome sat upon a throne of gold, his eyes twinkling with mischief.\nYou were stunned by the sight before you. The gnome, though small, exuded an aura of power and wisdom. He gestured towards a mountain of treasure, "Take what you desire, young one. A reward for your courage and curiosity."\nYou carefully selected a few of the most dazzling gems and a few rings, each more beautiful than the last. As you reached for a particularly large diamond, the gnome's eyes twinkled.\n"That one," he said, "is a gift. A token of your bravery."\nWith a wave of his hand, the diamond floated towards you. As you took it, a surge of power coursed through you, and you felt a newfound strength and agility.\n"Thank you," you said, your voice filled with gratitude. The gnome smiled. "Remember, with great power comes great responsibility. Use this wisely."\nWith a final nod, the gnome vanished, and you found yourself back in the forest, the ancient tree looming before you. The glowing orb was gone, leaving behind only a sense of wonder and fulfillment.\nThe end.`;
+  const text = `You cautiously approached the ancient tree, your heart pounding with anticipation. As you drew closer, you noticed a small, glowing orb nestled within the tree's roots. You reached out and gently touched the orb, and it pulsed with energy. A surge of power flowed through you, and you suddenly seemed to be transported into the tree.\nYou found yourself in a vast cavern, its walls adorned with glittering gemstones of every color imaginable. Diamonds, rubies, sapphires, and emeralds sparkled under the soft, ethereal light.\n"Well, well, well..." someone chuckled, "At last we meet, ` + storyName + `". \nIn the center of the cavern, an old gnome sat upon a throne of gold, his eyes twinkling with mischief.\nYou were stunned by the sight before you. The gnome, though small, exuded an aura of power and wisdom. He gestured towards a mountain of treasure, "Take what you desire, young one. A reward for your courage and curiosity."\nYou carefully selected a few of the most dazzling gems and a few rings, each more beautiful than the last. As you reached for a particularly large diamond, the gnome's eyes twinkled.\n"That one," he said, "is a gift. A token of your bravery."\nWith a wave of his hand, the diamond floated towards you. As you took it, a surge of power coursed through you, and you felt a newfound strength and agility.\n"Thank you," you said, your voice filled with gratitude. The gnome smiled. "Remember, with great power comes great responsibility. Use this wisely."\nWith a final nod, the gnome vanished, and you found yourself back in the forest, the ancient tree looming before you. The glowing orb was gone, leaving behind only a sense of wonder and fulfillment.\nThe end.`;
   text.id = "storyText";
 
   // The Split function using .split() and a for loop creating separate paragraphs
