@@ -2,6 +2,7 @@ window.addEventListener("DOMContentLoaded", loadScene);
 
 /** Function load current scene */
 function loadScene(sceneName) {
+  console.log("loadScene");
   switch (sceneName) {
     case "createSceneMainOne":
       createSceneMainOne();
@@ -9,6 +10,14 @@ function loadScene(sceneName) {
     case "createSceneForestOne":
       createSceneForestOne();
       break;
+    case "createSceneForestTwo":
+      createSceneForestTwo();
+      break;
+    case "createSceneForestThree":
+      createSceneForestThree();
+      break;
+    case "createSceneFinal":
+      createSceneFinal();
     default:
       console.log("Unknown saved scene:", sceneName);
       main();
@@ -462,8 +471,8 @@ function createSceneForestDeath() {
   storyImage.src = "assets/image/large-magic-meadow-with-endless-of-various-colors.webp";
   
   /** Create the buttons for the Scene*/
-  createButton(6, "retry", createSceneAltMainOne, storyButtons);
-  createButton(7, "new", main, storyButtons);
+  createButton(7, "retry", createSceneAltMainOne, storyButtons);
+  createButton(8, "new", main, storyButtons);
 
   saveGameState("createSceneForestDeath", gameState);
 }
