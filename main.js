@@ -1,4 +1,19 @@
-window.addEventListener("DOMContentLoaded", main);
+window.addEventListener("DOMContentLoaded", loadScene);
+
+/** Function load current scene */
+function loadScene(sceneName) {
+  switch (sceneName) {
+    case "createSceneMainOne":
+      createSceneMainOne();
+      break;
+    case "createSceneForestOne":
+      createSceneForestOne();
+      break;
+    default:
+      console.log("Unknown saved scene:", sceneName);
+      main();
+  }
+}
 
 /** Create Buttons from the global array */
 function createButton(index, id, onClickNextFunction, container) {
@@ -63,21 +78,6 @@ function main() {
     };
     createSceneMainOne(gameState); // If no saved state, create Main Scene
     }
-}
-
-/** Function load current scene */
-function loadScene(sceneName) {
-  switch (sceneName) {
-    case "createSceneMainOne":
-      createSceneMainOne();
-      break;
-    case "createSceneForestOne":
-      createSceneForestOne();
-      break;
-    default:
-      console.log("Unknown saved scene:", sceneName);
-      main();
-  }
 }
 
 /** Functions to handle username */
