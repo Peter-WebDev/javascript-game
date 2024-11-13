@@ -455,7 +455,7 @@ function createSceneForestTwo() {
 
   // Change story image SceneMainOne
   const storyImage = document.getElementById("storyImage");
-  storyImage.src = "assets/image/large-mossy-rock-in-black-forest-small-various-flowers-and-mushrooms.webp";
+  storyImage.src = "assets/image/forest-with-mossy-green-ground-and-glowing-fungi.webp";
   
   // Create the buttons for scene
   createButton(2, "north", createSceneForestOne, storyButtons);
