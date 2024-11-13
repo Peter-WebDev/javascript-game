@@ -302,7 +302,7 @@ function createSceneMain() {
  * Scene Alt Main One
  */
 function createSceneAltMain() {
-  createPageHeader();
+  createPageHeaderNoAnimation();
   const storyHeader = document.getElementById("storyHeader");
   storyHeader.innerHTML = "";
 
@@ -363,7 +363,7 @@ function createSceneAltMain() {
  * Scene Forest One
  */
 function createSceneForestOne() {
-  createPageHeader();
+  createPageHeaderNoAnimation();
   const storyHeader = document.getElementById("storyHeader");
   storyHeader.innerHTML = "";
 
@@ -425,7 +425,7 @@ function createSceneForestOne() {
  * Scene Forest Two
  */
 function createSceneForestTwo() {
-  createPageHeader();
+  createPageHeaderNoAnimation();
   const storyHeader = document.getElementById("storyHeader");
   storyHeader.innerHTML = "";
 
@@ -486,7 +486,7 @@ function createSceneForestTwo() {
  * Scene Forest Three
  */
 function createSceneForestThree() {
-  createPageHeader();
+  createPageHeaderNoAnimation();
   const storyHeader = document.getElementById("storyHeader");
   storyHeader.innerHTML = "";
 
@@ -548,7 +548,7 @@ function createSceneForestThree() {
  * Scene Forest Death
  */
 function createSceneForestDeath() {
-  createPageHeader();
+  createPageHeaderNoAnimation();
   const storyHeader = document.getElementById("storyHeader");
   storyHeader.innerHTML = "";
 
@@ -637,7 +637,7 @@ function createSceneCaveDeath() {
  * Scene Final - The Hidden Treasure
  */
 function createSceneFinal() {
-  createPageHeader();
+  createPageHeaderNoAnimation();
   const storyHeader = document.getElementById("storyHeader");
   storyHeader.innerHTML = "";
 
