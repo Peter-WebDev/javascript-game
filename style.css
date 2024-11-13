@@ -137,8 +137,14 @@ figure {
   font-weight: 900;
 }
 
-.no-animation {
+.pageparagraf.no-animation {
   animation: none;
+  letter-spacing: 0.5em;
+}
+
+.pagetitle.no-animation {
+  animation: none;
+  letter-spacing: 0.3em;
 }
 
 @media (prefers-reduced-motion: no-preference) {
