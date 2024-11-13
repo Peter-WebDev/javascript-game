@@ -701,7 +701,7 @@ function createSceneCaveTwo() {
   const title = document.createElement("h2");
   title.id = "storyTitle";
   title.className = "storytitle";
-  title.textContent = "The Stone Labyrinth";
+  title.textContent = "Deeper into the Labyrinth";
 
   // Create section for the paragraphs
   const storySection = document.createElement("section");
@@ -736,7 +736,7 @@ function createSceneCaveTwo() {
 
   // Change story image
   const storyImage = document.getElementById("storyImage");
-  storyImage.src = "assets/image/dark-green-forest-with-large-rocks.webp";
+  storyImage.src = "assets/image/cave-opening-with-torchlight-outside-to-the-right.webp";
 
   // Create the buttons
   createButton(1, "east", createSceneCaveDeath, storyButtons);
