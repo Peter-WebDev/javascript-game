@@ -169,7 +169,7 @@ function createButton(index, id, onClickNextFunction, container) {
 }
 
 /**
- * Create page header
+ * Create page header for loadStartScene
  */
 function createPageHeader() {
   const pageHeader = document.getElementById("pageHeader");
@@ -185,6 +185,19 @@ function createPageHeader() {
 
   pageHeader.appendChild(pageParagraf);
   pageHeader.appendChild(pageTitle);
+}
+
+function createPageHeaderNoAnimation() {
+  const pageHeader = document.getElementById("pageHeader");
+  pageHeader.innerHTML = "";
+
+  const pageParagraf = document.createElement("p");
+  pageParagraf.textContent = "A tale from the woods";
+  pageParagraf.className = ("pageparagraf", "no-animation");
+
+  const pageTitle = document.createElement("h1");
+  pageTitle.textContent = "The Forest";
+  pageTitle.className = ("pagetitle", "no-animation");
 }
 
 /**
@@ -222,7 +235,7 @@ function loadStartScene() {
  * Scene Main One
  */
 function createSceneMain() {
-  createPageHeader();
+  createPageHeaderNoAnimation();
   const book = document.getElementById("storyBook");
   book.style.display = "grid";
 
