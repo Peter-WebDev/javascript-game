@@ -1,5 +1,8 @@
 window.addEventListener("DOMContentLoaded", main);
 
+/**
+ * Global variable containing propertys for the game
+ */
 let gameState = {
   name: "",
   money: 50,
@@ -7,13 +10,17 @@ let gameState = {
   scene: "StartScene"
 };
 
+/**
+ * Set name
+ * @param {*} name 
+ */
 function setName(name) {
   gameState.name = name;
   saveGameState();
 }
 
-/** Set Money
- * 
+/**
+ * Set Money
  * @param {*} name 
  */
 function setMoney(name) {
@@ -21,17 +28,17 @@ function setMoney(name) {
   saveGameState();
 }
 
-/** Set Inventory
- * 
+/**
+ * Set Inventory
  * @param {*} name 
  */
 function setInventory(name) {
-  gameState.name = name;
+  gameState.inventory = name;
   saveGameState();
 }
 
-/** Set Scene
- * 
+/** 
+ * Set Scene
  * @param {*} name 
  */
 function setScene(name) {
@@ -39,8 +46,8 @@ function setScene(name) {
   saveGameState();
 }
 
-/** Load current scene
- * 
+/** 
+ * Load current scene
  * @param {*} sceneName 
  */
 function loadScene(sceneName) {
@@ -75,12 +82,16 @@ function loadScene(sceneName) {
   }
 }
 
-/** Functions to handle username */
+/**
+ * Function to save the username from the inputfield
+ * @param {*} event 
+ */
 function saveUserInfo(event) {
   event.preventDefault();
   const nameInput = document.getElementById("storyName");
   const name = nameInput.value;
   
+  // If user entered a name the property will be that name, else use "Stranger"
   if (name) {
     gameState.name = name;
   } else {
@@ -92,20 +103,31 @@ function saveUserInfo(event) {
     node.parentNode.removeChild(node);
   }
 
+  // Save username to the property name, then creates the Main Scene
   setName(gameState.name);
   createSceneMain();
 }
 
+/**
+ * Load the users name
+ * @returns {gameState.name} 
+ */
 function loadUserInfo() {
   let name = gameState.name;
   return name;
 }
 
-/** Functions for handling the state of the game */
+/**
+ * Save the game state
+ */
 function saveGameState() {
   localStorage.setItem("gameState", JSON.stringify(gameState));
 }
 
+/**
+ * Load the game state and returns the values
+ * @returns {gameStateData}
+ */
 function loadGameState() {
   const gameStateData = JSON.parse(localStorage.getItem("gameState"));
   if (gameStateData) {
@@ -118,7 +140,9 @@ function clearGameState() {
   localStorage.removeItem("gameState");
 }
 
-/** Load current saved state */
+/** 
+ * Loading the current saved scene
+ */
 function main() {
   const savedState = loadGameState();
   if (savedState) {
@@ -127,7 +151,13 @@ function main() {
   loadScene(gameState.scene); // Trigger the loadScene
 }
 
-/** Create Buttons from the global array */
+/**
+ * Create Buttons with parameters
+ * @param {*} index The name of the button by corresponding index
+ * @param {*} id Setting the id for the button
+ * @param {*} onClickNextFunction Sets the next function to be called
+ * @param {*} container Sets which container to add the button to
+ */
 function createButton(index, id, onClickNextFunction, container) {
   const buttonNames = ["West", "East", "North", "South", "Pick up", "Buy item", "Move closer", "Retry", "New character", "Start", "Play again"];
   const button = document.createElement("button");
@@ -138,6 +168,9 @@ function createButton(index, id, onClickNextFunction, container) {
   container.appendChild(button);
 }
 
+/**
+ * Create page header
+ */
 function createPageHeader() {
   const pageHeader = document.getElementById("pageHeader");
   pageHeader.innerHTML = "";
@@ -154,7 +187,9 @@ function createPageHeader() {
   pageHeader.appendChild(pageTitle);
 }
 
-/** Starting point of program */
+/**
+ * Starting point of program
+ */
 function loadStartScene() {
   createPageHeader();
   const book = document.getElementById("storyBook");
@@ -183,7 +218,9 @@ function loadStartScene() {
   createButton(9, "storyStart", saveUserInfo, form);
 }
 
-/** Scene Main One */
+/**
+ * Scene Main One
+ */
 function createSceneMain() {
   createPageHeader();
   const book = document.getElementById("storyBook");
@@ -195,7 +232,7 @@ function createSceneMain() {
   // Get the characters name
   const storyName = loadUserInfo();
 
-  // Create h2 element and add the char name to the textContent
+  // Create h2 element and add the characters name to the textContent
   const title = document.createElement("h2");
   title.id = "storyTitle";
   title.className = "storytitle";
@@ -229,22 +266,25 @@ function createSceneMain() {
   buttonContainer.id = "storyButtons";
   buttonContainer.className = "buttoncontainer";
 
-  /** Append to container storyHeader */
+  // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  /** Change story image SceneMainOne */
+  // Change story image SceneMainOne
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/hazy-sunlight-shines-through-a-forest-with-large-rocks.webp";
   
-  /** Create the buttons SceneMainOne */
+  // Create the buttons SceneMainOne
   createButton(0, "west", createSceneForestOne, storyButtons);
   createButton(1, "east", createSceneCaveOne, storyButtons);
 
-  gameState.scene = "SceneMain"
+  // Save scene state
+  gameState.scene = "SceneMain";
   setScene(gameState.scene);
 }
 
-/** Scene Alt Main One */
+/**
+ * Scene Alt Main One
+ */
 function createSceneAltMain() {
   createPageHeader();
   const storyHeader = document.getElementById("storyHeader");
@@ -287,22 +327,25 @@ function createSceneAltMain() {
   buttonContainer.id = "storyButtons";
   buttonContainer.className = "buttoncontainer";
 
-  /** Append to container storyHeader */
+  // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  /** Change story image SceneMainOne */
+  // Change story image SceneMainOne
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/hazy-sunlight-shines-through-a-forest-with-large-rocks.webp";
   
-  /** Create the buttons SceneMainOne */
+  // Create the buttons SceneMainOne
   createButton(0, "west", createSceneForestOne, storyButtons);
   createButton(1, "east", createSceneCaveOne, storyButtons);
 
+  // Save scene state
   gameState.scene = "SceneAltMain";
   setScene(gameState.scene);
 }
 
-/** Scene Forest One */
+/**
+ * Scene Forest One
+ */
 function createSceneForestOne() {
   createPageHeader();
   const storyHeader = document.getElementById("storyHeader");
@@ -345,23 +388,26 @@ function createSceneForestOne() {
   buttonContainer.id = "storyButtons";
   buttonContainer.className = "buttoncontainer";
 
-  /** Append to container storyHeader */
+  // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  /** Change story image SceneMainOne */
+  // Change story image SceneMainOne
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/an-old-merchant-by-the-campfire-surrounded-by-gnarly-trees.webp";
   
-  /** Create the buttons SceneForestOne */
+  // Create the buttons SceneForestOne
   createButton(1, "east", createSceneMain, storyButtons);
   createButton(3, "south", createSceneForestTwo, storyButtons);
   createButton(5, "buyitem", createSceneForestDeath, storyButtons);
 
+  // Save scene state
   gameState.scene = "SceneForestOne";
   setScene(gameState.scene);
 }
 
-/** Scene Forest Two */
+/**
+ * Scene Forest Two
+ */
 function createSceneForestTwo() {
   createPageHeader();
   const storyHeader = document.getElementById("storyHeader");
@@ -404,14 +450,14 @@ function createSceneForestTwo() {
   buttonContainer.id = "storyButtons";
   buttonContainer.className = "buttoncontainer";
 
-  /** Append to container storyHeader */
+  // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  /** Change story image SceneMainOne */
+  // Change story image SceneMainOne
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/large-mossy-rock-in-black-forest-small-various-flowers-and-mushrooms.webp";
   
-  /** Create the buttons for scene */
+  // Create the buttons for scene
   createButton(2, "north", createSceneForestOne, storyButtons);
   createButton(3, "south", createSceneForestThree, storyButtons);
   createButton(4, "mushroom", createSceneForestDeath, storyButtons);
@@ -420,7 +466,9 @@ function createSceneForestTwo() {
   setScene(gameState.scene);
 }
 
-/** Scene Forest Three - Find a gem */
+/**
+ * Scene Forest Three
+ */
 function createSceneForestThree() {
   createPageHeader();
   const storyHeader = document.getElementById("storyHeader");
@@ -463,23 +511,26 @@ function createSceneForestThree() {
   buttonContainer.id = "storyButtons";
   buttonContainer.className = "buttoncontainer";
 
-  /** Append to container storyHeader */
+  // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  /** Change story image SceneMainOne */
+  // Change story image SceneMainOne
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/gnarly-tree-with-lots-of-gems-and-trinkets-on-the-ground.webp";
   
-  /** Create the buttons for scene */
+  // Create the buttons for scene
   createButton(2, "north", createSceneForestTwo, storyButtons);
   createButton(6, "movecloser", createSceneFinal, storyButtons);
   createButton(4, "gemstone", createSceneFinal, storyButtons);
 
+  // Save scene state
   gameState.scene = "SceneForestThree";
   setScene(gameState.scene);
 }
 
-/** Scene Forest Death */
+/**
+ * Scene Forest Death
+ */
 function createSceneForestDeath() {
   createPageHeader();
   const storyHeader = document.getElementById("storyHeader");
@@ -522,42 +573,53 @@ function createSceneForestDeath() {
   buttonContainer.id = "storyButtons";
   buttonContainer.className = "buttoncontainer";
 
-  /** Append to container storyHeader */
+  // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  /** Change story image SceneMainOne */
+  // Change story image SceneMainOne
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/large-magic-meadow-with-endless-of-various-colors.webp";
   
-  /** Create the buttons for the Scene*/
+  // Create the buttons for the Scene
   createButton(7, "retry", createSceneAltMain, storyButtons);
   createButton(8, "new", loadStartScene, storyButtons);
 
+  // Save scene state
   gameState.scene = "SceneForestDeath";
   setScene(gameState.scene);
 }
 
-/** Scene Cave One */
+/**
+ * Scene Cave One
+ */
 function createSceneCaveOne() {
   console.log("Cave One");
 }
 
-/** Scene Cave Two */
+/**
+ * Scene Cave Two
+ */
 function createSceneCaveTwo() {
   console.log("Cave Two");
 }
 
-/** Scene Cave Three - Gem */
+/**
+ * Scene Cave Three - Gemstone
+ */
 function createSceneCaveThree() {
   console.log("Cave Three Gem");
 }
 
-/** Scene Cave Death */
+/**
+ * Scene Cave Death
+ */
 function createSceneCaveDeath() {
   console.log("Cave Death");
 }
 
-/** Scene Final - The Hidden Treasure */
+/**
+ * Scene Final - The Hidden Treasure
+ */
 function createSceneFinal() {
   createPageHeader();
   const storyHeader = document.getElementById("storyHeader");
