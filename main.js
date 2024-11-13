@@ -156,6 +156,8 @@ function clearGameState() {
   localStorage.removeItem("gameState");
 }
 
+
+
 /** 
  * Loading the current saved scene
  */
