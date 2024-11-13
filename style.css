@@ -247,7 +247,8 @@ figure {
   background: var(--clr-neutral-100);
 }
 
-.btn:focus-visible {
+.btn:focus-visible,
+input[type="text"]:focus-visible {
   outline: 2px solid var(--clr-accent-focus);
   outline-offset: 2px;
 }
