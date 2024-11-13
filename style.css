@@ -12,6 +12,26 @@
   margin: 0;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--clr-neutral-300);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--clr-neutral-400);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--clr-neutral-400);
+}
+
 html {
   font-family: system-ui;
   font-size: 1.125rem;
@@ -53,13 +73,19 @@ header {
   }
 }
 
+h1,
+h2,
+h3 {
+  line-height: 1.1;
+}
+
 .book {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
   gap: 2rem;
   padding: 2rem;
   border-radius: 1rem;
-  width: min(100% - 4rem, 1200px);
+  width: min(100% - 2rem, 1200px);
   margin-inline: auto;
   margin-bottom: 1rem;
   background: var(--clr-neutral-300);
@@ -68,7 +94,6 @@ header {
     height: 100%;
     object-fit: cover;
     border-radius: 1rem;
-    animation: 1s ease-in-out fadeIn;
   }
 }
 
@@ -161,6 +186,10 @@ figure {
 .storyText {
   display: grid;
   gap: 0.4rem;
+  height: 425px;
+  border-bottom: 1px solid black;
+  margin-bottom: 0.25em;
+  overflow-y: auto;
 }
 
 .storyQuestion {
@@ -214,6 +243,7 @@ figure {
 }
 
 input[type="text"] {
+  width: 200px;
   padding: 0.8em 1.2em;
   margin: 0.5rem 0 0.8rem 0;
   border: 1px solid var(--clr-neutral-500);
