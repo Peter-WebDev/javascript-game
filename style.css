@@ -198,7 +198,7 @@ figure {
   display: grid;
   gap: 0.4rem;
   height: 425px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--clr-neutral-500);
   margin-bottom: 0.25em;
   overflow-y: auto;
 }
