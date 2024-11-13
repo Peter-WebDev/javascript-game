@@ -4,7 +4,7 @@
   --clr-neutral-300: hsl(45, 10%, 50%);
   --clr-neutral-400: hsl(0, 0%, 15%);
   --clr-neutral-500: hsl(0, 0%, 2%);
-  --clr-accent-focus: hsl(225, 100%, 50%);
+  --clr-accent-focus: hsl(66, 100%, 50%);
 }
 
 * {
@@ -19,7 +19,7 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--clr-neutral-300);
+  background: var(--clr-neutral-400);
 }
 
 /* Handle */
@@ -94,6 +94,7 @@ h3 {
     height: 100%;
     object-fit: cover;
     border-radius: 1rem;
+    animation: 2s ease-in-out fadeIn;
   }
 }
 
@@ -248,8 +249,8 @@ figure {
 }
 
 .btn:focus-visible {
-  outline: 3px solid var(--clr-accent-focus);
-  outline-offset: 4px;
+  outline: 2px solid var(--clr-accent-focus);
+  outline-offset: 2px;
 }
 
 input[type="text"] {
