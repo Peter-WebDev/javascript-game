@@ -73,6 +73,22 @@ function loadScene(sceneName) {
       createSceneForestThree();
       console.log("Loaded Scene:", sceneName);
       break;
+    case "SceneCaveOne":
+      createSceneCaveOne();
+      console.log("Loaded Scene:", sceneName);
+      break;
+    case "SceneCaveTwo":
+      createSceneCaveTwo();
+      console.log("Loaded Scene:", sceneName);
+      break;
+    case "SceneCaveThree":
+      createSceneCaveThree();
+      console.log("Loaded Scene:", sceneName);
+      break;
+    case "SceneCaveDeath":
+      createSceneCaveDeath();
+      console.log("Loaded Scene:", sceneName);
+      break;
     case "SceneFinal":
       createSceneFinal();
       console.log("Loaded Scene:", sceneName);
@@ -97,7 +113,7 @@ function saveUserInfo(event) {
   } else {
     gameState.name = "Stranger";
   }
-
+  
   const node = document.getElementById("formStoryName");
   if (node.parentNode) {
     node.parentNode.removeChild(node);
@@ -110,7 +126,7 @@ function saveUserInfo(event) {
 
 /**
  * Load the users name
- * @returns {gameState.name} 
+ * @returns {name} 
  */
 function loadUserInfo() {
   let name = gameState.name;
@@ -159,7 +175,7 @@ function main() {
  * @param {*} container Sets which container to add the button to
  */
 function createButton(index, id, onClickNextFunction, container) {
-  const buttonNames = ["West", "East", "North", "South", "Pick up", "Buy item", "Move closer", "Retry", "New character", "Start", "Play again"];
+  const buttonNames = ["West", "East", "North", "South", "Pick up", "Pay", "Move closer", "Retry", "New character", "Start", "Play again"];
   const button = document.createElement("button");
   button.textContent = buttonNames[index];
   button.id = id;
@@ -187,6 +203,9 @@ function createPageHeader() {
   pageHeader.appendChild(pageTitle);
 }
 
+/**
+ * Create page header with no animation for the other scenes
+ */
 function createPageHeaderNoAnimation() {
   const pageHeader = document.getElementById("pageHeader");
   pageHeader.innerHTML = "";
@@ -285,11 +304,11 @@ function createSceneMain() {
   // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  // Change story image SceneMainOne
+  // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/hazy-sunlight-shines-through-a-forest-with-large-rocks.webp";
   
-  // Create the buttons SceneMainOne
+  // Create the buttons
   createButton(0, "west", createSceneForestOne, storyButtons);
   createButton(1, "east", createSceneCaveOne, storyButtons);
 
@@ -320,7 +339,7 @@ function createSceneAltMain() {
   storySection.className = "storyText";
 
   // Text to be split
-  const text = 'You find yourself awakening to the sound of gentle rustle of leaves."Where am I?" A voice echoed in your mind.\nYou suddenly remember fearsome trolls and mischievous goblins and a legend that speaks of a forgotten realm, hidden deep within these ancient forests, holding treasures beyond imagination.\n"Was it a dream, or a glimpse of something real?", "Have I been here before?" you wondered, your mind racing.\nA surge of curiosity and a hint of trepidation fill your heart. You know that danger lurks in the shadows, but the allure of the unknown and treasures is too strong to resist.';
+  const text = 'You find yourself awakening to the sound of gentle rustle of leaves."Where am I?" A voice echoed in your mind.\nYou suddenly remember fearsome creatures and magic items, and a legend that speaks of a forgotten realm, hidden deep within these ancient forests, holding treasures beyond imagination.\n"Was it a dream, or a glimpse of something real?", "Have I been here before?" you wondered, your mind racing.\nA surge of curiosity and a hint of trepidation fill your heart. You know that danger lurks in the shadows, but the allure of the unknown and treasures is too strong to resist.\nTo the west, a path winds down to an opening into the ancient forest. To the east, a narrow passage, barely wide enough for a single person, wound its way between the large rocks.';
   text.id = "storyText";
 
   // The Split function using .split() and a for loop creating separate paragraphs
@@ -346,11 +365,11 @@ function createSceneAltMain() {
   // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  // Change story image SceneMainOne
+  // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/hazy-sunlight-shines-through-a-forest-with-large-rocks.webp";
   
-  // Create the buttons SceneMainOne
+  // Create the buttons
   createButton(0, "west", createSceneForestOne, storyButtons);
   createButton(1, "east", createSceneCaveOne, storyButtons);
 
@@ -370,11 +389,11 @@ function createSceneForestOne() {
   // Get the characters name
   const storyName = loadUserInfo();
 
-  // Create h2 element and add the char name to the textContent
+  // Create h2 element and its content
   const title = document.createElement("h2");
   title.id = "storyTitle";
   title.className = "storytitle";
-  title.textContent = "A figure in the shadows";
+  title.textContent = "A figure in the shadows...";
 
   // Create section for the paragraphs
   const storySection = document.createElement("section");
@@ -407,11 +426,11 @@ function createSceneForestOne() {
   // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  // Change story image SceneMainOne
+  // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/an-old-merchant-by-the-campfire-surrounded-by-gnarly-trees.webp";
   
-  // Create the buttons SceneForestOne
+  // Create the buttons
   createButton(1, "east", createSceneMain, storyButtons);
   createButton(3, "south", createSceneForestTwo, storyButtons);
   createButton(5, "buyitem", createSceneForestDeath, storyButtons);
@@ -469,7 +488,7 @@ function createSceneForestTwo() {
   // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  // Change story image SceneMainOne
+  // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/forest-with-mossy-green-ground-and-glowing-fungi.webp";
   
@@ -592,7 +611,7 @@ function createSceneForestDeath() {
   // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  // Change story image SceneMainOne
+  // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/large-magic-meadow-with-endless-of-various-colors.webp";
   
@@ -609,28 +628,245 @@ function createSceneForestDeath() {
  * Scene Cave One
  */
 function createSceneCaveOne() {
-  console.log("Cave One");
+  createPageHeaderNoAnimation();
+  const storyHeader = document.getElementById("storyHeader");
+  storyHeader.innerHTML = "";
+
+  // Get the characters name
+  const storyName = loadUserInfo();
+
+  // Create h2 element and its content
+  const title = document.createElement("h2");
+  title.id = "storyTitle";
+  title.className = "storytitle";
+  title.textContent = "The Stone Labyrinth";
+
+  // Create section for the paragraphs
+  const storySection = document.createElement("section");
+  storySection.className = "storyText";
+  
+  // Text to be split
+  const text = `The deeper you venture, the more the forest changes. Sunlight fades, replaced by a dim, ethereal glow. The forest gives way to a labyrinth of towering rocks. Strange, otherworldly sounds echo through the rocks.\nA sudden rustle in the undergrowth startles you. You can make out a pair of glowing eyes in the darkness. As you draw your knife, a shadowy figure moves back and forth.\n"Who's there to disturb my peace?" a voice rings out from the darkness.\n"You can call me ` + storyName + `" you answered.\nA moment later, a small, goblin-like creature emerges from the shadows. It's no taller than your knee, with pointed ears, a wide grin, and a mischievous glint in its eyes.\n"Well, well, well," it cackles, "A brave adventurer, I see. What brings you to my humble abode?"\n"I'm seeking to find the Mystical Orb..." you reply, your voice firm. "Can you direct me to it?"\nThe goblin's eyes widen in surprise.\n"The Mystic Orb, eh? A bold ambition. Well, I suppose I could point you in the right direction, for a price, of course." It grins mischievously."`;
+  text.id = "storyText";
+
+// The Split function using .split() and a for loop creating separate paragraphs
+const sentences = text.split(/\n/);
+for (let i = 0; i < sentences.length; i++) {
+  const paragraph = document.createElement("p");
+  paragraph.textContent = sentences[i];
+  paragraph.className = "storyParagraph";
+  storySection.appendChild(paragraph);
+}
+
+// Create element for question
+const question = document.createElement("h3");
+question.id = "storyQuestion";
+question.className = "storyquestion";
+question.textContent = "What's your next move " + storyName + "?";
+
+// Create Button Container
+const buttonContainer = document.createElement("div");
+buttonContainer.id = "storyButtons";
+buttonContainer.className = "buttoncontainer";
+
+// Append to container storyHeader
+storyHeader.append(title, storySection, question, buttonContainer);
+
+// Change story image
+const storyImage = document.getElementById("storyImage");
+storyImage.src = "assets/image/cave-goblin-with-a-greenish-skin-holding-a-torchlight.webp";
+
+// Create the buttons
+createButton(0, "west", createSceneMain, storyButtons);
+createButton(3, "east", createSceneCaveDeath, storyButtons);
+createButton(5, "buy", createSceneCaveTwo, storyButtons);
+
+// Save scene state
+gameState.scene = "SceneCaveOne";
+setScene(gameState.scene);
 }
 
 /**
  * Scene Cave Two
  */
 function createSceneCaveTwo() {
-  console.log("Cave Two");
+  createPageHeaderNoAnimation();
+  const storyHeader = document.getElementById("storyHeader");
+  storyHeader.innerHTML = "";
+
+  // Get the characters name
+  const storyName = loadUserInfo();
+
+  // Create h2 element and its content
+  const title = document.createElement("h2");
+  title.id = "storyTitle";
+  title.className = "storytitle";
+  title.textContent = "The Stone Labyrinth";
+
+  // Create section for the paragraphs
+  const storySection = document.createElement("section");
+  storySection.className = "storyText";
+  
+  // Text to be split
+  const text = `The goblin led you deeper into the labyrinth. The path became increasingly treacherous, with narrow passages and deep chasms. The air grew colder, and an eerie silence hung over the place. As you ventured further, the walls of the labyrinth began to close in, and the darkness grew more intense. You could feel a sense of dread creeping over you, a premonition of danger lurking in the shadows. Suddenly, the goblin stopped at a fork in the path.\n"Well, this is as far as I go..." it said, pointing towards a dimly lit passage. "The rest is up to you. Good luck, ` + storyName + `".\nWith a mischievous grin, the goblin vanished into the shadows. You hesitated for a moment, studying the two paths before you. One led east deeper into the darkness, while the other seemed to ascend south towards a distant light, and a cave entrance.`;
+  text.id = "storyText";
+
+  // The Split function using .split() and a for loop creating separate paragraphs
+  const sentences = text.split(/\n/);
+  for (let i = 0; i < sentences.length; i++) {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = sentences[i];
+    paragraph.className = "storyParagraph";
+    storySection.appendChild(paragraph);
+  }
+
+  // Create element for question
+  const question = document.createElement("h3");
+  question.id = "storyQuestion";
+  question.className = "storyquestion";
+  question.textContent = "What's your next move " + storyName + "?";
+
+  // Create Button Container
+  const buttonContainer = document.createElement("div");
+  buttonContainer.id = "storyButtons";
+  buttonContainer.className = "buttoncontainer";
+
+  // Append to container storyHeader
+  storyHeader.append(title, storySection, question, buttonContainer);
+
+  // Change story image
+  const storyImage = document.getElementById("storyImage");
+  storyImage.src = "assets/image/dark-green-forest-with-large-rocks.webp";
+
+  // Create the buttons
+  createButton(1, "east", createSceneCaveDeath, storyButtons);
+  createButton(3, "south", createSceneCaveThree, storyButtons);
+
+  // Save scene state
+  gameState.scene = "SceneCaveTwo";
+  setScene(gameState.scene);
 }
 
 /**
- * Scene Cave Three - Gemstone
+ * Scene Cave Three
  */
 function createSceneCaveThree() {
-  console.log("Cave Three Gem");
+  createPageHeaderNoAnimation();
+  const storyHeader = document.getElementById("storyHeader");
+  storyHeader.innerHTML = "";
+
+  // Get the characters name
+  const storyName = loadUserInfo();
+
+  // Create h2 element and its content
+  const title = document.createElement("h2");
+  title.id = "storyTitle";
+  title.className = "storytitle";
+  title.textContent = "The Stone Labyrinth";
+
+  // Create section for the paragraphs
+  const storySection = document.createElement("section");
+  storySection.className = "storyText";
+  
+  // Text to be split
+  const text = `As you stepped into the cavern, a sense of awe filled you. The walls were adorned with intricate carvings, depicting ancient battles and celestial beings. The air was still, the only sound the soft echo of your footsteps. You moved cautiously, each step measured and silent.\nA colossal stone door, etched with ancient symbols, blocks your path. Undeterred, you approach the door. As you touch the cold, smooth surface, the door swings open. A soft, ethereal glow illuminates the room.\nAt the center of the cavern, a crystalline pool shimmered, its surface rippling with otherworldly energy. At its center, the Mystic Orb pulsed with energy. Its power drawing you closer.\nAs you  started to reach out (move closer) and touch the orb, a surge of power started to course through your veins. At the same (east), in the corner of your eyes, you discovered another stone door, intricately carved with symbols similar to those on the cavern walls.`;
+  text.id = "storyText";
+
+  // The Split function using .split() and a for loop creating separate paragraphs
+  const sentences = text.split(/\n/);
+  for (let i = 0; i < sentences.length; i++) {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = sentences[i];
+    paragraph.className = "storyParagraph";
+    storySection.appendChild(paragraph);
+  }
+
+  // Create element for question
+  const question = document.createElement("h3");
+  question.id = "storyQuestion";
+  question.className = "storyquestion";
+  question.textContent = "What's your next move " + storyName + "?";
+
+  // Create Button Container
+  const buttonContainer = document.createElement("div");
+  buttonContainer.id = "storyButtons";
+  buttonContainer.className = "buttoncontainer";
+
+  // Append to container storyHeader
+  storyHeader.append(title, storySection, question, buttonContainer);
+
+  // Change story image SceneMainOne
+  const storyImage = document.getElementById("storyImage");
+  storyImage.src = "assets/image/a-dark-cave-with-an-magic-orb-in-the-center-carvings-gems-and-trinkets-on-the-walls-and-a-stone-door-to-the-east.webp";
+
+  // Create the buttons
+  createButton(1, "east", createSceneCaveDeath, storyButtons);
+  createButton(6, "movecloser", createSceneFinal, storyButtons);
+
+  // Save scene state
+  gameState.scene = "SceneCaveThree";
+  setScene(gameState.scene);
 }
 
 /**
  * Scene Cave Death
  */
 function createSceneCaveDeath() {
-  console.log("Cave Death");
+  createPageHeaderNoAnimation();
+  const storyHeader = document.getElementById("storyHeader");
+  storyHeader.innerHTML = "";
+
+  // Get the characters name
+  const storyName = loadUserInfo();
+
+  // Create h2 element and add the char name to the textContent
+  const title = document.createElement("h2");
+  title.id = "storyTitle";
+  title.className = "storytitle";
+  title.textContent = "A tragic end for you, " + storyName + "";
+
+  // Create section for the paragraphs
+  const storySection = document.createElement("section");
+  storySection.className = "storyText";
+
+  // Text to be split
+  const text = `With a mixture of curiosity and trepidation, you approached the door. As you touched its cold, smooth surface, it slowly creaked open, revealing a narrow, dimly lit passageway descending into the depths of the mountain. A chill wind whistled through the opening, carrying with it the promise of ancient secrets and hidden dangers.\nAs you descended deeper into the mountain, the air grew colder and the silence more profound. The only sound was the distant echo of your footsteps. \nSuddenly, a loose rock gave way beneath your foot, and you tumbled into the abyss. The world spun around you as you fell, a terrifying sensation of weightlessness consuming you. The darkness enveloped you completely, and you felt a cold, final embrace.`;
+  text.id = "storyText";
+
+  // The Split function using .split() and a for loop creating separate paragraphs
+  const sentences = text.split(/\n/);
+  for (let i = 0; i < sentences.length; i++) {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = sentences[i];
+    paragraph.className = "storyParagraph";
+    storySection.appendChild(paragraph);
+  }
+
+  // Create element for question
+  const question = document.createElement("h3");
+  question.id = "storyQuestion";
+  question.className = "storyquestion";
+  question.textContent = "What's your next move " + storyName + "?"; 
+
+  // Create Button Container
+  const buttonContainer = document.createElement("div");
+  buttonContainer.id = "storyButtons";
+  buttonContainer.className = "buttoncontainer";
+
+  // Append to container storyHeader
+  storyHeader.append(title, storySection, question, buttonContainer);
+
+  // Change story image SceneMainOne
+  const storyImage = document.getElementById("storyImage");
+  storyImage.src = "assets/image/large-magic-meadow-with-endless-of-various-colors.webp";
+  
+  // Create the buttons for the Scene
+  createButton(7, "retry", createSceneAltMain, storyButtons);
+  createButton(8, "new", loadStartScene, storyButtons);
+
+  // Save scene state
+  gameState.scene = "SceneCaveDeath";
+  setScene(gameState.scene);
 }
 
 /**
@@ -655,7 +891,7 @@ function createSceneFinal() {
   storySection.className = "storyText";
 
   // Text to be split
-  const text = `As you drew closer, you noticed a small, glowing orb nestled within the tree's roots. You reached out and gently touched the orb, and it pulsed with energy. A surge of power flowed through you, and you were transported into the tree.\nYou found yourself in a vast cavern, its walls adorned with glittering gemstones of every color imaginable. Diamonds, rubies, sapphires, and emeralds sparkled under the soft, ethereal light.\n"Well, well, well..." someone chuckled, "At last we meet, ` + storyName + `". \nIn the center of the cavern, an old gnome sat upon a throne of gold, his eyes twinkling with mischief.\nThe gnome, though small, exuded an aura of power and wisdom. He gestured towards a mountain of treasure, "Take what you desire, young one. A reward for your courage and curiosity."\nYou carefully selected a few of the most dazzling gems and a few rings, each more beautiful than the last. As you reached for a particularly large diamond, the gnome's eyes twinkled.\n"That one," he said, "is a gift. A token of your bravery."\nWith a wave of his hand, the diamond floated towards you. As you took it, a surge of power coursed through you, and you felt a newfound strength and agility.\n"Thank you," you said, your voice filled with gratitude. The gnome smiled. "Remember, with great power comes great responsibility. Use this wisely."\nWith a final nod, the gnome vanished, and you found yourself back in the forest, the ancient tree looming before you. The glowing orb was gone, leaving behind only a sense of wonder and fulfillment.\nThe end.`;
+  const text = `You found yourself in a vast cavern, its walls adorned with glittering gemstones of every color imaginable. Diamonds, rubies, sapphires, and emeralds sparkled under the soft, ethereal light.\n"Well, well, well..." someone chuckled, "At last we meet, ` + storyName + `". \nIn the center of the cavern, an old gnome sat upon a throne of gold, his eyes twinkling with mischief.\nThe gnome, though small, exuded an aura of power and wisdom. He gestured towards a mountain of treasure, "Take what you desire, young one. A reward for your courage and curiosity."\nYou carefully selected a few of the most dazzling gems and a few rings, each more beautiful than the last. As you reached for a particularly large diamond, the gnome's eyes twinkled.\n"That one," he said, "is a gift. A token of your bravery."\nWith a wave of his hand, the diamond floated towards you. As you took it, a surge of power coursed through you, and you felt a newfound strength and agility.\n"Thank you," you said, your voice filled with gratitude. The gnome smiled. "Remember, with great power comes great responsibility. Use this wisely."\nWith a final nod, the gnome vanished, and you found yourself back in the forest, the ancient tree looming before you. The glowing orb was gone, leaving behind only a sense of wonder and fulfillment.\nThe end.`;
   text.id = "storyText";
 
   // The Split function using .split() and a for loop creating separate paragraphs
@@ -678,14 +914,14 @@ function createSceneFinal() {
   buttonContainer.id = "storyButtons";
   buttonContainer.className = "buttoncontainer";
 
-  /** Append to container storyHeader */
+  // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
 
-  /** Change story image SceneMainOne */
+  // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/a-gnome-inside-a-large-tree-is-surrounded-by-gems-trinkets.webp";
   
-  /** Create the buttons for the Scene*/
+  // Create the buttons for the Scene
   createButton(10, "playagain", loadStartScene, storyButtons);
 
   localStorage.clear();
