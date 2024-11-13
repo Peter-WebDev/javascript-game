@@ -193,11 +193,11 @@ function createPageHeaderNoAnimation() {
 
   const pageParagraf = document.createElement("p");
   pageParagraf.textContent = "A tale from the woods";
-  pageParagraf.classList = ("pageparagraf", "no-animation");
+  pageParagraf.className = "pageparagraf no-animation";
 
   const pageTitle = document.createElement("h1");
   pageTitle.textContent = "The Forest";
-  pageTitle.classList = ("pagetitle", "no-animation");
+  pageTitle.className = "pagetitle no-animation";
 
   pageHeader.appendChild(pageParagraf);
   pageHeader.appendChild(pageTitle);
