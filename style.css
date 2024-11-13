@@ -137,6 +137,10 @@ figure {
   font-weight: 900;
 }
 
+.no-animation {
+  animation: none;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .pageparagraf {
     animation: 3s cubic-bezier(0.215, 0.61, 0.355, 1) both
