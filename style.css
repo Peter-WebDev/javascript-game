@@ -85,7 +85,7 @@ h3 {
   gap: 2rem;
   padding: 2rem;
   border-radius: 1rem;
-  width: min(100% - 2rem, 1200px);
+  width: min(100% - clamp(2rem, -0.087rem + 10.4348vw, 8rem), 1200px);
   margin-inline: auto;
   margin-bottom: 1rem;
   background: var(--clr-neutral-300);
