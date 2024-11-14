@@ -1,7 +1,17 @@
 window.addEventListener("DOMContentLoaded", main);
 
 /**
- * Global variable containing propertys for the game
+ * Global variable containing an array of propertys for the game
+ * @typedef {Object} GameState
+ * @property {string} name Player's name for the character
+ * @property {number} money Player's current amount of money 
+ * @property {string[]} inventory Player's current inventory items 
+ * @property {string} scene Current scene name
+ * @property {Audio} audio Audio files used in the game
+ */
+
+/**
+ * @type {GameState}
  */
 let gameState = {
   name: "",
@@ -14,12 +24,15 @@ let gameState = {
   ]
 };
 
-// Create Audio element for the tracks
+/**
+ * Create array of Audio objects from the files listed in the game state audio property
+ * @typedef {string} Audio
+*/
 const audioTracks = gameState.audio.map(audioFile => new Audio(audioFile));
 
 /**
- * Set name
- * @param {*} name 
+ * Set name and save state to local storage
+ * @param {string} name Username in the game to be set
  */
 function setName(name) {
   gameState.name = name;
@@ -27,8 +40,8 @@ function setName(name) {
 }
 
 /**
- * Set Money
- * @param {*} name 
+ * Set current money and save state to local storage
+ * @param {string} name - Amount of money
  */
 function setMoney(name) {
   gameState.scene = name;
@@ -36,8 +49,8 @@ function setMoney(name) {
 }
 
 /**
- * Set Inventory
- * @param {*} name 
+ * Set current inventory and save state to local storage
+ * @param {string} name - Inventory object
  */
 function setInventory(name) {
   gameState.inventory = name;
@@ -45,74 +58,58 @@ function setInventory(name) {
 }
 
 /** 
- * Set Scene
- * @param {*} name 
+ * Set current scene name and save state to local storage
+ * @param {string} name - Scene name to be set
  */
 function setScene(name) {
   gameState.scene = name;
   saveGameState();
 }
 
-function setMusic(name) {
-  gameState.music = name;
-  saveGameState();
-}
-
 /** 
- * Load current scene
- * @param {*} sceneName 
+ * Load current scene based on scene name
+ * @param {string} sceneName Scene name to load
  */
 function loadScene(sceneName) {
-  console.log("loadScene");
   switch (sceneName) {
     case "SceneMain":
       createSceneMain();
-      console.log("Loaded Scene:", sceneName);
       break;
     case "SceneAltMain":
       createSceneAltMain();
-      console.log("Loaded Scene:", sceneName);
       break;
     case "SceneForestOne":
       createSceneForestOne();
-      console.log("Loaded Scene:", sceneName);
       break;
     case "SceneForestTwo":
       createSceneForestTwo();
-      console.log("Loaded Scene:", sceneName);
       break;
     case "SceneForestThree":
       createSceneForestThree();
-      console.log("Loaded Scene:", sceneName);
       break;
     case "SceneCaveOne":
       createSceneCaveOne();
-      console.log("Loaded Scene:", sceneName);
       break;
     case "SceneCaveTwo":
       createSceneCaveTwo();
-      console.log("Loaded Scene:", sceneName);
       break;
     case "SceneCaveThree":
       createSceneCaveThree();
-      console.log("Loaded Scene:", sceneName);
       break;
     case "SceneCaveDeath":
       createSceneCaveDeath();
-      console.log("Loaded Scene:", sceneName);
       break;
     case "SceneFinal":
       createSceneFinal();
-      console.log("Loaded Scene:", sceneName);
     default:
       loadStartScene();
-      console.log("Loaded Scene:", sceneName);
   }
 }
 
 /**
- * Function to save the username from the inputfield
- * @param {*} event 
+ * Function to save the username from form input and trigger the game
+ * @param {Event} event Form input
+ * @returns {void}
  */
 function saveUserInfo(event) {
   event.preventDefault();
@@ -138,7 +135,7 @@ function saveUserInfo(event) {
 
 /**
  * Load the users name
- * @returns {name} 
+ * @returns {string} - The username
  */
 function loadUserInfo() {
   let name = gameState.name;
@@ -153,8 +150,8 @@ function saveGameState() {
 }
 
 /**
- * Load the game state and returns the values
- * @returns {gameStateData}
+ * Load the game state from local storage and returns the state
+ * @returns {Object|null} The loaded game state object or null
  */
 function loadGameState() {
   const gameStateData = JSON.parse(localStorage.getItem("gameState"));
@@ -170,7 +167,7 @@ function clearGameState() {
 
 /**
  * Play Audio and loop
- * @param {*} index 
+ * @param {number} index The index of the audio track that will be played
  */
 function playAudio(index) {
   audioTracks[index].play();
@@ -178,7 +175,7 @@ function playAudio(index) {
 
 /**
  * Pause Audio
- * @param {*} index 
+ * @param {number} index The index of the audio to be paused
  */
 function pauseAudio(index) {
   audioTracks[index].pause();
@@ -186,7 +183,7 @@ function pauseAudio(index) {
 
 /**
  * Play and loop Audio 
- * @param {*} index 
+ * @param {number} index The index of the audio to be played and looped
  */
 function playLoopAudio(index) {
   audioTracks[index].loop = true;
@@ -195,8 +192,8 @@ function playLoopAudio(index) {
 
 /**
  * Fade out audio and pause
- * @param {*} audio The audio track index in gameState
- * @param {*} duration How long the fade should be
+ * @param {HTMLAudioElement} audio The audio track index in gameState
+ * @param {number} duration How long the fade should be in ms
  */
 function fadeOutAudio(audio, duration) {
   const interval = 50;
@@ -217,22 +214,22 @@ function fadeOutAudio(audio, duration) {
 }
 
 /** 
- * Loading the current saved scene
+ * Starts the game and loads the saved game state and current scene 
  */
 function main() {
   const savedState = loadGameState();
   if (savedState) {
     gameState = savedState;
   }
-  loadScene(gameState.scene); // Trigger the loadScene
+  loadScene(gameState.scene);
 }
 
 /**
- * Create Buttons with parameters
- * @param {*} index The name of the button by corresponding index
- * @param {*} id Setting the id for the button
- * @param {*} onClickNextFunction Sets the next function to be called
- * @param {*} container Sets which container to add the button to
+ * Creates button with four parameters and adds a click event
+ * @param {string} index The name of the button by corresponding index
+ * @param {string} id Setting the id for the button
+ * @param {Function} onClickNextFunction Sets the next function to be called
+ * @param {HTMLElement} container Sets which container to add the button to
  */
 function createButton(index, id, onClickNextFunction, container) {
   const buttonNames = ["West", "East", "North", "South", "Pick up", "Pay", "Move closer", "Retry", "New character", "Start", "Play again"];
@@ -245,7 +242,7 @@ function createButton(index, id, onClickNextFunction, container) {
 }
 
 /**
- * Create page header for loadStartScene
+ * Create page header element
  */
 function createPageHeader() {
   const pageHeader = document.getElementById("pageHeader");
@@ -264,7 +261,7 @@ function createPageHeader() {
 }
 
 /**
- * Create page header with no animation for the other scenes
+ * Create page header with no animation
  */
 function createPageHeaderNoAnimation() {
   const pageHeader = document.getElementById("pageHeader");
@@ -284,6 +281,10 @@ function createPageHeaderNoAnimation() {
 
 /**
  * Starting point of program
+ * @see createPageHeader
+ * @see createButton
+ * @see playLoopAudio
+ * @see fadeOutAudio
  */
 function loadStartScene() {
   createPageHeader();
@@ -317,6 +318,11 @@ function loadStartScene() {
 
 /**
  * Scene Main One
+ * @see createPageHeaderNoAnimation
+ * @see createButton
+ * @see setScene
+ * @see fadeOutAudio
+ * @see playLoopAudio
  */
 function createSceneMain() {
   createPageHeaderNoAnimation();
@@ -385,6 +391,9 @@ function createSceneMain() {
 
 /**
  * Scene Alt Main One
+ * @see createPageHeaderNoAnimation
+ * @see createButton
+ * @see setScene
  */
 function createSceneAltMain() {
   createPageHeaderNoAnimation();
@@ -446,6 +455,9 @@ function createSceneAltMain() {
 
 /**
  * Scene Forest One
+ * @see createPageHeaderNoAnimation
+ * @see createButton
+ * @see setScene
  */
 function createSceneForestOne() {
   createPageHeaderNoAnimation();
@@ -508,6 +520,9 @@ function createSceneForestOne() {
 
 /**
  * Scene Forest Two
+ * @see createPageHeaderNoAnimation
+ * @see createButton
+ * @see setScene
  */
 function createSceneForestTwo() {
   createPageHeaderNoAnimation();
@@ -569,6 +584,9 @@ function createSceneForestTwo() {
 
 /**
  * Scene Forest Three
+ * @see createPageHeaderNoAnimation
+ * @see createButton
+ * @see setScene
  */
 function createSceneForestThree() {
   createPageHeaderNoAnimation();
@@ -631,6 +649,9 @@ function createSceneForestThree() {
 
 /**
  * Scene Forest Death
+ * @see createPageHeaderNoAnimation
+ * @see createButton
+ * @see setScene
  */
 function createSceneForestDeath() {
   createPageHeaderNoAnimation();
@@ -692,6 +713,9 @@ function createSceneForestDeath() {
 
 /**
  * Scene Cave One
+ * @see createPageHeaderNoAnimation
+ * @see createButton
+ * @see setScene
  */
 function createSceneCaveOne() {
   createPageHeaderNoAnimation();
@@ -754,6 +778,9 @@ setScene(gameState.scene);
 
 /**
  * Scene Cave Two
+ * @see createPageHeaderNoAnimation
+ * @see createButton
+ * @see setScene
  */
 function createSceneCaveTwo() {
   createPageHeaderNoAnimation();
@@ -815,6 +842,9 @@ function createSceneCaveTwo() {
 
 /**
  * Scene Cave Three
+ * @see createPageHeaderNoAnimation
+ * @see createButton
+ * @see setScene
  */
 function createSceneCaveThree() {
   createPageHeaderNoAnimation();
@@ -876,6 +906,9 @@ function createSceneCaveThree() {
 
 /**
  * Scene Cave Death
+ * @see createPageHeaderNoAnimation
+ * @see createButton
+ * @see setScene
  */
 function createSceneCaveDeath() {
   createPageHeaderNoAnimation();
@@ -937,6 +970,8 @@ function createSceneCaveDeath() {
 
 /**
  * Scene Final - The Hidden Treasure
+ * @see createPageHeaderNoAnimation
+ * @see createButton
  */
 function createSceneFinal() {
   createPageHeaderNoAnimation();
