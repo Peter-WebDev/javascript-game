@@ -199,17 +199,19 @@ function playLoopAudio(index) {
  * @param {*} duration // How long the fade should be
  */
 function fadeOutAudio(audio, duration) {
-  const interval = 10;
+  const interval = 50;
   const steps = duration / interval;
-  const volumeStep = audio.volume / steps;
+  const volumeStep = audio.volume / (steps + 1);
 
-  let currentStep = 0;
+  let currentVolume = audio.volume;
   const fadeInterval = setInterval(() => {
-    audio.volume -= volumeStep;
-    currentStep++;
-    if(currentStep >= steps) {
+    audio.volume = Math.max(0, audio.volume - volumeStep);
+    currentVolume = audio.volume;
+    
+    if (audio.volume === 0) {
       clearInterval(fadeInterval);
       audio.pause();
+      audio.volume = 0.8;
     }
   }, interval);
 }
