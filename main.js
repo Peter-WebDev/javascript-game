@@ -375,6 +375,11 @@ function createSceneMain() {
   // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/hazy-sunlight-shines-through-a-forest-with-large-rocks.webp";
+
+  // Create text for figcaption
+  const figcaption = document.getElementById("storyCaption");
+  figcaption.className = "figcaption";
+  figcaption.textContent = "Rocky terrain meets towering trees, the fog adding a mystical touch. The land, a tapestry of stone and green, is shrouded in a veil of mist."
   
   // Create the buttons
   createButton(0, "west", createSceneForestOne, storyButtons);
@@ -443,6 +448,11 @@ function createSceneAltMain() {
   // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/hazy-sunlight-shines-through-a-forest-with-large-rocks.webp";
+
+  // Create text for figcaption
+  const figcaption = document.getElementById("storyCaption");
+  figcaption.className = "figcaption";
+  figcaption.textContent = "Rocky terrain meets towering trees, the fog adding a mystical touch. The land, a tapestry of stone and green, is shrouded in a veil of mist.";
   
   // Create the buttons
   createButton(0, "west", createSceneForestOne, storyButtons);
@@ -495,19 +505,24 @@ function createSceneForestOne() {
   question.id = "storyQuestion";
   question.className = "storyquestion";
   question.textContent = "What's your next move " + storyName + "?";
-
+  
   // Create Button Container
   const buttonContainer = document.createElement("div");
   buttonContainer.id = "storyButtons";
   buttonContainer.className = "buttoncontainer";
-
+  
   // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
-
+  
   // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/an-old-merchant-by-the-campfire-surrounded-by-gnarly-trees.webp";
   
+  // Create text for figcaption
+  const figcaption = document.getElementById("storyCaption");
+  figcaption.className = "figcaption";
+  figcaption.textContent = "An old merchant sits by a campfire, surrounded by gnarly trees. Rings, trinkets and potions lays on a blanket beside him.";
+
   // Create the buttons
   createButton(1, "east", createSceneMain, storyButtons);
   createButton(3, "south", createSceneForestTwo, storyButtons);
@@ -565,14 +580,19 @@ function createSceneForestTwo() {
   const buttonContainer = document.createElement("div");
   buttonContainer.id = "storyButtons";
   buttonContainer.className = "buttoncontainer";
-
+  
   // Append to container storyHeader
   storyHeader.append(title, storySection, question, buttonContainer);
-
+  
   // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/forest-with-mossy-green-ground-and-glowing-fungi.webp";
   
+  // Create element for figcaption
+  const figcaption = document.getElementById("storyCaption");
+  figcaption.className = "figcaption";
+  figcaption.textContent = "Various mysterious glowing fungi rises up from a mossy covered ground."
+
   // Create the buttons for scene
   createButton(2, "north", createSceneForestOne, storyButtons);
   createButton(3, "south", createSceneForestThree, storyButtons);
@@ -636,6 +656,11 @@ function createSceneForestThree() {
   // Change story image SceneMainOne
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/gnarly-tree-with-lots-of-gems-and-trinkets-on-the-ground.webp";
+
+  // Create element for figcaption
+  const figcaption = document.getElementById("storyCaption");
+  figcaption.className = "figcaption";
+  figcaption.textContent = "Old and gnarly tree, with a magic orb at its center, is surrounded on ground by various gems and trinkets in different color."
   
   // Create the buttons for scene
   createButton(2, "north", createSceneForestTwo, storyButtons);
@@ -701,6 +726,11 @@ function createSceneForestDeath() {
   // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/large-magic-meadow-with-endless-of-various-colors.webp";
+
+  // Create element for figcaption
+  const figcaption = document.getElementById("storyCaption");
+  figcaption.className = "figcaption";
+  figcaption.textContent = "A kaleidoscope of colors paints the landscape, where nature's beauty knows no bounds. The earth, a canvas of infinite hues, is adorned with the brushstrokes of the divine.";
   
   // Create the buttons for the Scene
   createButton(7, "retry", createSceneAltMain, storyButtons);
@@ -765,6 +795,11 @@ storyHeader.append(title, storySection, question, buttonContainer);
 // Change story image
 const storyImage = document.getElementById("storyImage");
 storyImage.src = "assets/image/cave-goblin-with-a-greenish-skin-holding-a-torchlight.webp";
+
+// Create element for figcaption
+const figcaption = document.getElementById("storyCaption");
+figcaption.className = "figcaption";
+figcaption.textContent = "A mischievous goblin, his skin the color of moss, emerges from the shadows, torchlight illuminating his grinning face. The dim, cavernous surroundings cast long, eerie shadows, adding to the goblin's sinister charm.";
 
 // Create the buttons
 createButton(0, "west", createSceneMain, storyButtons);
@@ -831,6 +866,11 @@ function createSceneCaveTwo() {
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/cave-opening-with-torchlight-outside-to-the-right.webp";
 
+  // Create element for figcaption
+  const figcaption = document.getElementById("storyCaption");
+  figcaption.className = "figcaption";
+  figcaption.textContent = "A flickering torch lights the way into a shadowy cave, promising secrets and adventure.";
+
   // Create the buttons
   createButton(1, "east", createSceneCaveDeath, storyButtons);
   createButton(3, "south", createSceneCaveThree, storyButtons);
@@ -858,14 +898,14 @@ function createSceneCaveThree() {
   const title = document.createElement("h2");
   title.id = "storyTitle";
   title.className = "storytitle";
-  title.textContent = "The Stone Labyrinth";
+  title.textContent = "The Mystic Orb";
 
   // Create section for the paragraphs
   const storySection = document.createElement("section");
   storySection.className = "storyText";
   
   // Text to be split
-  const text = `As you stepped into the cavern, a sense of awe filled you. The walls were adorned with intricate carvings, depicting ancient battles and celestial beings. The air was still, the only sound the soft echo of your footsteps. A colossal stone door, etched with ancient symbols, blocks your path. As you approach and touch the cold, smooth surface, the door swings open. \nAt the center of the cavern, a crystalline pool shimmered, illuminating the room, its surface rippling with otherworldly energy. At its center, the Mystic Orb pulsed with energy. Its power drawing you closer.\nAs you started to move closer and touch the orb, a surge of power started to course through your veins. To the east you discovered another stone door, intricately carved with symbols similar to those on the cavern walls.`;
+  const text = `As you stepped into the cavern, a sense of awe filled you. The walls were adorned with intricate carvings, depicting ancient battles and celestial beings. The air was still, the only sound the soft echo of your footsteps. A colossal stone door, etched with ancient symbols, blocks your path. As you approach and touch the cold, smooth surface, the door swings open. \nAt the center of the cavern, a crystalline pool shimmered, illuminating the room, its surface rippling with otherworldly energy. Just above the pool, the Mystic Orb pulsed with energy. Its power drawing you closer.\nAs you started to move closer and touch the orb, a surge of power started to course through your veins. To the east you discovered another stone door, intricately carved with symbols similar to those on the cavern walls.`;
   text.id = "storyText";
 
   // The Split function using .split() and a for loop creating separate paragraphs
@@ -894,6 +934,11 @@ function createSceneCaveThree() {
   // Change story image SceneMainOne
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/a-dark-cave-with-an-magic-orb-in-the-center-carvings-gems-and-trinkets-on-the-walls-and-a-stone-door-to-the-east.webp";
+
+  // Create element for figcaption
+  const figcaption = document.getElementById("storyCaption");
+  figcaption.className = "figcaption";
+  figcaption.textContent = "A cavernous room filled with gems and relics from a forgotten age, at the center, a crystalline pool and a magic orb shimmered, illuminating the room.";
 
   // Create the buttons
   createButton(1, "east", createSceneCaveDeath, storyButtons);
@@ -958,6 +1003,11 @@ function createSceneCaveDeath() {
   // Change story image SceneMainOne
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/large-magic-meadow-with-endless-of-various-colors.webp";
+
+  // Create element for figcaption
+  const figcaption = document.getElementById("storyCaption");
+  figcaption.className = "figcaption";
+  figcaption.textContent = "A kaleidoscope of colors paints the landscape, where nature's beauty knows no bounds. The earth, a canvas of infinite hues, is adorned with the brushstrokes of the divine.";
   
   // Create the buttons for the Scene
   createButton(7, "retry", createSceneAltMain, storyButtons);
@@ -1021,6 +1071,11 @@ function createSceneFinal() {
   // Change story image
   const storyImage = document.getElementById("storyImage");
   storyImage.src = "assets/image/a-gnome-inside-a-large-tree-is-surrounded-by-gems-trinkets.webp";
+
+  // Create element for figcaption
+  const figcaption = document.getElementById("storyCaption");
+  figcaption.className = "figcaption";
+  figcaption.textContent = "A wise, ancient gnome, his beard as white as winter's frost, sits enthroned amidst a dazzling array of jewels. The walls of the cavern, adorned with intricate carvings and shimmering crystals, reflect the light of the countless gems.";
   
   // Create the buttons for the Scene
   createButton(10, "playagain", loadStartScene, storyButtons);
