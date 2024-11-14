@@ -7,8 +7,15 @@ let gameState = {
   name: "",
   money: 50,
   inventory: ["Knife"],
-  scene: "StartScene"
+  scene: "StartScene",
+  audio: [
+    "assets/music/tawny-owl-in-molkom-sweden.mp3",
+    "assets/music/dark-mystery-cinematic-melody.mp3"
+  ]
 };
+
+// Create Audio element for the tracks
+const audioTracks = gameState.audio.map(audioFile => new Audio(audioFile));
 
 /**
  * Set name
@@ -43,6 +50,11 @@ function setInventory(name) {
  */
 function setScene(name) {
   gameState.scene = name;
+  saveGameState();
+}
+
+function setMusic(name) {
+  gameState.music = name;
   saveGameState();
 }
 
@@ -156,7 +168,51 @@ function clearGameState() {
   localStorage.removeItem("gameState");
 }
 
+/**
+ * Play Audio and loop
+ * @param {*} index 
+ */
+function playAudio(index) {
+  audioTracks[index].play();
+}
 
+/**
+ * Pause Audio
+ * @param {*} index 
+ */
+function pauseAudio(index) {
+  audioTracks[index].pause();
+}
+
+/**
+ * Play and loop Audio 
+ * @param {*} index 
+ */
+function playLoopAudio(index) {
+  audioTracks[index].loop = true;
+  audioTracks[index].play();
+}
+
+/**
+ * Fade out audio and pause
+ * @param {*} audio // The audio track index in gameState
+ * @param {*} duration // How long the fade should be
+ */
+function fadeOutAudio(audio, duration) {
+  const interval = 10;
+  const steps = duration / interval;
+  const volumeStep = audio.volume / steps;
+
+  let currentStep = 0;
+  const fadeInterval = setInterval(() => {
+    audio.volume -= volumeStep;
+    currentStep++;
+    if(currentStep >= steps) {
+      clearInterval(fadeInterval);
+      audio.pause();
+    }
+  }, interval);
+}
 
 /** 
  * Loading the current saved scene
@@ -253,6 +309,8 @@ function loadStartScene() {
   form.appendChild(inputField);
 
   createButton(9, "storyStart", saveUserInfo, form);
+  playLoopAudio(0);
+  fadeOutAudio(audioTracks[1], 2000);
 }
 
 /**
@@ -317,6 +375,10 @@ function createSceneMain() {
   // Save scene state
   gameState.scene = "SceneMain";
   setScene(gameState.scene);
+
+  // Audio fade out and play
+  fadeOutAudio(audioTracks[0], 2000);
+  playLoopAudio(1);
 }
 
 /**
