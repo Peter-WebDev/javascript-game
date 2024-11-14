@@ -195,8 +195,8 @@ function playLoopAudio(index) {
 
 /**
  * Fade out audio and pause
- * @param {*} audio // The audio track index in gameState
- * @param {*} duration // How long the fade should be
+ * @param {*} audio The audio track index in gameState
+ * @param {*} duration How long the fade should be
  */
 function fadeOutAudio(audio, duration) {
   const interval = 50;
