@@ -173,14 +173,26 @@ function createInventoryButton(index, action, value, container) {
         increaseMoney(value);
       });
       break;
-    case "decreaseMoney":
+    case "decreaseMoneyOne":
       button.addEventListener("click", () => {
         decreaseMoney(value);
+        // Create a new button after the action
+        createButton(3, "south", createSceneForestTwo, container);
+        button.remove();
+      });
+      break;
+    case "decreaseMoneyTwo":
+      button.addEventListener("click", () => {
+        decreaseMoney(value);
+        // Create a new button after the action
+        createButton(6, "movecloser", createSceneFinal, container);
+        button.remove();
       });
       break;
     case "addItem":
       button.addEventListener("click", () => {
         addItemToInventory(value);
+        button.remove();
       });
       break;
     default:
@@ -625,7 +637,7 @@ function createSceneForestOne() {
   storySection.className = "storyText";
 
   // Text to be split
-  const text = `As you walked further into the forest, you couldn't shake the feeling that you were being watched. The trees seemed to lean in, their gnarled branches reaching out like skeletal fingers. The sunlight, once warm and inviting, now seemed to cast an eerie glow on the forest floor.\nAs you start to quickened your pace, hoping to escape the oppressive silence, you see a hooded figure standing in the shadows. The figure stepped into the light, revealing a merchant with a wide grin and a bag full of peculiar items.\n"What's your name?" murmured the merchant, while he showed you a variety of magical trinkets, potions, and weapons.\n"You can call me ` + storyName + `" you answered.\nThe merchant just nodded while speaking of ancient relics, lost treasures, and forbidden knowledge. You were very intrigued by a certain item. A ring with an Emerald, the most powerful of all gemstones in the fight against evil. However, the merchant's appearance in such a remote and dangerous place was unsettling.`;
+  const text = `As you walked further into the forest, you couldn't shake the feeling that you were being watched. The trees seemed to lean in, their gnarled branches reaching out like skeletal fingers. The sunlight, once warm and inviting, now seemed to cast an eerie glow on the forest floor.\nAs you start to quickened your pace, hoping to escape the oppressive silence, you see a hooded figure standing in the shadows. The figure stepped into the light, revealing a merchant with a wide grin and a bag full of peculiar items.\n"What's your name?" murmured the merchant, while he showed you a variety of magical trinkets, potions, and weapons.\n"You can call me ` + storyName + `" you answered.\nThe merchant just nodded while speaking of ancient relics, lost treasures, and forbidden knowledge. "I'm looking for the Magic Orb, do you know the way?".\n"For some gold coins, I sure will..." the merchant said, while stirring the camp fire. However, the merchant's appearance in such a remote and dangerous place was unsettling.`;
   text.id = "storyText";
 
   // The Split function using .split() and a for loop creating separate paragraphs
@@ -662,9 +674,7 @@ function createSceneForestOne() {
 
   // Create the buttons
   createButton(1, "east", createSceneMain, buttonContainer);
-  createInventoryButton(5, "decreaseMoney", 10, buttonContainer);
-
-  
+  createInventoryButton(5, "decreaseMoneyOne", 5, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneForestOne";
@@ -737,7 +747,7 @@ function createSceneForestTwo() {
   // Create the buttons for scene
   createButton(2, "north", createSceneForestOne, buttonContainer);
   createButton(3, "south", createSceneForestThree, buttonContainer);
-  createButton(4, "mushroom", createSceneForestDeath, buttonContainer);
+  createInventoryButton(4, "addItem", 2, buttonContainer);
 
   gameState.scene = "SceneForestTwo";
   setScene(gameState.scene);
@@ -771,7 +781,7 @@ function createSceneForestThree() {
   storySection.className = "storyText";
 
   // Text to be split
-  const text = `As you delved deeper, the forest began to change. The trees grew taller, their leaves shimmering with an otherworldly glow. The air was filled with a sweet, floral scent, and the ground was soft and mossy. You felt a surge of energy, as if the forest itself was invigorating you.\nSuddenly, you stumbled upon a hidden clearing. In the center, a massive, ancient tree stood, its branches reaching towards the sky. A small gemstone revealed itself close to the tree \n"Ohh a gemstone ..." you said loudly your mind.\nBut this was no ordinary tree. Its trunk was adorned with intricate carvings, and its leaves glowed with a radiant light. As you approached, the tree seemed to come alive, its branches swaying gently in the breeze.`;
+  const text = `As you delved deeper, the forest began to change. The trees grew taller, their leaves shimmering with an otherworldly glow. The air was filled with a sweet, floral scent, and the ground was soft and mossy. You felt a surge of energy, as if the forest itself was invigorating you.\nSuddenly, you stumbled upon a hidden clearing. In the center, a massive, ancient tree stood, its branches reaching towards the sky.\nBut this was no ordinary tree. Its trunk was adorned with intricate carvings, and its leaves glowed with a radiant light.\n"Better drop some coins into the pool, for good luck". As you approached, the tree seemed to come alive, its branches swaying gently in the breeze.`;
   text.id = "storyText";
 
   // The Split function using .split() and a for loop creating separate paragraphs
@@ -809,7 +819,7 @@ function createSceneForestThree() {
   // Create the buttons for scene
   createButton(2, "north", createSceneForestTwo, buttonContainer);
   createButton(6, "movecloser", createSceneFinal, buttonContainer);
-  createButton(4, "gemstone", createSceneFinal, buttonContainer);
+  createInventoryButton(5, "decreaseMoneyTwo", 5, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneForestThree";
