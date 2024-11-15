@@ -16,7 +16,10 @@ window.addEventListener("DOMContentLoaded", main);
 let gameState = {
   name: "",
   money: 50,
-  inventory: ["Knife"],
+  inventory: {
+    "Knife": 1,
+    "Long sword": 1, 
+  },
   scene: "StartScene",
   audio: [
     "assets/music/tawny-owl-in-molkom-sweden.mp3",
@@ -44,13 +47,13 @@ function setName(name) {
  * @param {string} name - Amount of money
  */
 function setMoney(name) {
-  gameState.scene = name;
+  gameState.money = name;
   saveGameState();
 }
 
 /**
  * Set current inventory and save state to local storage
- * @param {string} name - Inventory object
+ * @param {string} name Inventory object
  */
 function setInventory(name) {
   gameState.inventory = name;
@@ -64,6 +67,108 @@ function setInventory(name) {
 function setScene(name) {
   gameState.scene = name;
   saveGameState();
+}
+
+/**
+ * Update display of money and inventory
+ */
+function updateDisplay() {
+  const inventoryContainer = document.getElementById("storyBook");
+  inventoryContainer.innerHTML = ""; // Clear the content to rebuild
+
+  const itemList = createItemList(gameState);
+  inventoryContainer.appendChild(itemList);
+}
+
+/**
+ * Creates a list of items containing the player's inventory(items) and money info 
+ * @param {object} gameState Current game state object of money and inventory data
+ * @property {number} gameState.money Amount of money the player has
+ * @property {object} gameState.inventory Objects (items) the player has where keys are item name and value is the amount
+ * @returns {HTMLElement} Created list element containing money and items
+ */
+function createItemList(gameState) {
+  const itemListContainer = document.createElement("div");
+  itemListContainer.classList.add("item-list-container"); //  Add class to the container
+  
+  const itemList = document.createElement("ul");
+  itemList.classList.add("item-list");
+
+  // Display amount of money
+  const moneyItem = document.createElement("li");
+  moneyItem.textContent = "Coins (" + gameState.money + ")";
+  itemList.appendChild(moneyItem);
+
+  //Display inventory items
+  for (const [item, quantity] of Object.entries(gameState.inventory)) {
+    const inventoryItem = document.createElement("li");
+    inventoryItem.textContent = `${item} (${quantity})`;
+    itemList.appendChild(inventoryItem);
+  };
+
+  return itemList;
+}
+
+/**
+ * Increases the player's money  if triggered
+ * @param {number} amount  
+ */
+function increaseMoney(amount) {
+  gameState.money += amount;
+  updateDisplay();
+  saveGameState();
+}
+
+/**
+ * Decrease the player's money if triggered
+ * @param {number} amount The amount to decrease
+ */
+function decreaseMoney(amount) {
+  // Tries to decrease money, but also prevent negative number
+  if (gameState.money >= amount) {
+    gameState.money -= amount;
+    updateDisplay();
+    saveGameState();
+  } else {
+    console.log("Not enough money");
+    alert("Not enough money");
+  } 
+}
+
+/**
+ * Adds item to player's inventory if new one or increment its quantity
+ * @param {string} item The name of the item to add
+ */
+function addItemToInventory(item) {
+  gameState.inventory[item] = (gameState.inventory[item] || 0) + 1;
+  updateDisplay();
+  saveGameState();
+}
+
+/**
+ * Removes item from the player's inventory if triggered
+ * @param {string} item The item name to be removed
+ */
+function removeItemFromInventory(item) {
+  if (gameState.inventory[item] > 0) {
+    gameState.inventory[item]--;
+    updateDisplay();
+    saveGameState();
+  } else {
+    console.log("Item not found in inventory");
+    alert("Item not found in inventory");
+  }
+}
+
+/** 
+ * Starts the game and loads the saved game state and current scene 
+ */
+function main() {
+  const savedState = loadGameState();
+  if (savedState) {
+    gameState = savedState;
+  }
+  loadScene(gameState.scene);
 }
 
 /** 
@@ -213,17 +318,6 @@ function fadeOutAudio(audio, duration) {
   }, interval);
 }
 
-/** 
- * Starts the game and loads the saved game state and current scene 
- */
-function main() {
-  const savedState = loadGameState();
-  if (savedState) {
-    gameState = savedState;
-  }
-  loadScene(gameState.scene);
-}
-
 /**
  * Creates button with four parameters and adds a click event
  * @param {string} index The name of the button by corresponding index
@@ -314,6 +408,7 @@ function loadStartScene() {
   createButton(9, "storyStart", saveUserInfo, form);
   playLoopAudio(0);
   fadeOutAudio(audioTracks[1], 2000);
+  updateDisplay();
 }
 
 /**
@@ -349,7 +444,7 @@ function createSceneMain() {
   const text = 'You stand at the edge of an ancient forest, the sun dappling through the canopy. The air is thick with the scent of pine needles and damp earth, and the only sound is the gentle rustle of leaves. A sense of wonder and trepidation fills you as you look around.\nStrange, otherworldly sounds echoed through the undergrowth—the distant howl of a wolf, the eerie chirping of unseen insects. A surge of curiosity and a hint of trepidation fill your heart. You know that danger lurks in the shadows, but the allure of the unknown and treasures is too strong to resist.\nTo the west, a path winds down to an opening into the ancient forest. To the east, a narrow passage, barely wide enough for a single person, wound its way between the large rocks.';
   text.id = "storyText";
 
-  // The Split function using .split() and a for loop creating separate paragraphs
+  // Using .split() and a for loop to create separate paragraphs
   const sentences = text.split(/\n/);
   for (let i = 0; i < sentences.length; i++) {
     const paragraph = document.createElement("p");
@@ -382,16 +477,20 @@ function createSceneMain() {
   figcaption.textContent = "Rocky terrain meets towering trees, the fog adding a mystical touch. The land, a tapestry of stone and green, is shrouded in a veil of mist."
   
   // Create the buttons
-  createButton(0, "west", createSceneForestOne, storyButtons);
-  createButton(1, "east", createSceneCaveOne, storyButtons);
+  createButton(0, "west", createSceneForestOne, buttonContainer);
+  createButton(1, "east", createSceneCaveOne, buttonContainer);
 
+  
   // Save scene state
   gameState.scene = "SceneMain";
   setScene(gameState.scene);
-
+  
   // Audio fade out and play
   fadeOutAudio(audioTracks[0], 2000);
   playLoopAudio(1);
+  
+  // Display items 
+  updateDisplay();
 }
 
 /**
@@ -455,12 +554,15 @@ function createSceneAltMain() {
   figcaption.textContent = "Rocky terrain meets towering trees, the fog adding a mystical touch. The land, a tapestry of stone and green, is shrouded in a veil of mist.";
   
   // Create the buttons
-  createButton(0, "west", createSceneForestOne, storyButtons);
-  createButton(1, "east", createSceneCaveOne, storyButtons);
+  createButton(0, "west", createSceneForestOne, buttonContainer);
+  createButton(1, "east", createSceneCaveOne, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneAltMain";
   setScene(gameState.scene);
+
+  // Display items 
+  updateDisplay();
 }
 
 /**
@@ -524,13 +626,16 @@ function createSceneForestOne() {
   figcaption.textContent = "An old merchant sits by a campfire, surrounded by gnarly trees. Rings, trinkets and potions lays on a blanket beside him.";
 
   // Create the buttons
-  createButton(1, "east", createSceneMain, storyButtons);
-  createButton(3, "south", createSceneForestTwo, storyButtons);
-  createButton(5, "buyitem", createSceneForestDeath, storyButtons);
+  createButton(1, "east", createSceneMain, buttonContainer);
+  createButton(3, "south", createSceneForestTwo, buttonContainer);
+  createButton(5, "buyitem", createSceneForestDeath, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneForestOne";
   setScene(gameState.scene);
+
+  // Display items 
+  updateDisplay();
 }
 
 /**
@@ -594,12 +699,15 @@ function createSceneForestTwo() {
   figcaption.textContent = "Various mysterious glowing fungi rises up from a mossy covered ground."
 
   // Create the buttons for scene
-  createButton(2, "north", createSceneForestOne, storyButtons);
-  createButton(3, "south", createSceneForestThree, storyButtons);
-  createButton(4, "mushroom", createSceneForestDeath, storyButtons);
+  createButton(2, "north", createSceneForestOne, buttonContainer);
+  createButton(3, "south", createSceneForestThree, buttonContainer);
+  createButton(4, "mushroom", createSceneForestDeath, buttonContainer);
 
   gameState.scene = "SceneForestTwo";
   setScene(gameState.scene);
+
+  // Display items 
+  updateDisplay();
 }
 
 /**
@@ -663,13 +771,16 @@ function createSceneForestThree() {
   figcaption.textContent = "Old and gnarly tree, with a magic orb at its center, is surrounded on ground by various gems and trinkets in different color."
   
   // Create the buttons for scene
-  createButton(2, "north", createSceneForestTwo, storyButtons);
-  createButton(6, "movecloser", createSceneFinal, storyButtons);
-  createButton(4, "gemstone", createSceneFinal, storyButtons);
+  createButton(2, "north", createSceneForestTwo, buttonContainer);
+  createButton(6, "movecloser", createSceneFinal, buttonContainer);
+  createButton(4, "gemstone", createSceneFinal, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneForestThree";
   setScene(gameState.scene);
+
+  // Display items 
+  updateDisplay();
 }
 
 /**
@@ -733,12 +844,15 @@ function createSceneForestDeath() {
   figcaption.textContent = "A kaleidoscope of colors paints the landscape, where nature's beauty knows no bounds. The earth, a canvas of infinite hues, is adorned with the brushstrokes of the divine.";
   
   // Create the buttons for the Scene
-  createButton(7, "retry", createSceneAltMain, storyButtons);
-  createButton(8, "new", loadStartScene, storyButtons);
+  createButton(7, "retry", createSceneAltMain, buttonContainer);
+  createButton(8, "new", loadStartScene, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneForestDeath";
   setScene(gameState.scene);
+
+  // Display items 
+  updateDisplay();
 }
 
 /**
@@ -802,13 +916,16 @@ figcaption.className = "figcaption";
 figcaption.textContent = "A mischievous goblin, his skin the color of moss, emerges from the shadows, torchlight illuminating his grinning face. The dim, cavernous surroundings cast long, eerie shadows, adding to the goblin's sinister charm.";
 
 // Create the buttons
-createButton(0, "west", createSceneMain, storyButtons);
-createButton(3, "east", createSceneCaveDeath, storyButtons);
-createButton(5, "buy", createSceneCaveTwo, storyButtons);
+createButton(0, "west", createSceneMain, buttonContainer);
+createButton(3, "east", createSceneCaveDeath, buttonContainer);
+createButton(5, "buy", createSceneCaveTwo, buttonContainer);
 
 // Save scene state
 gameState.scene = "SceneCaveOne";
 setScene(gameState.scene);
+
+// Display items 
+updateDisplay();
 }
 
 /**
@@ -872,12 +989,15 @@ function createSceneCaveTwo() {
   figcaption.textContent = "A flickering torch lights the way into a shadowy cave, promising secrets and adventure.";
 
   // Create the buttons
-  createButton(1, "east", createSceneCaveDeath, storyButtons);
-  createButton(3, "south", createSceneCaveThree, storyButtons);
+  createButton(1, "east", createSceneCaveDeath, buttonContainer);
+  createButton(3, "south", createSceneCaveThree, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneCaveTwo";
   setScene(gameState.scene);
+
+  // Display items 
+  updateDisplay();
 }
 
 /**
@@ -941,12 +1061,15 @@ function createSceneCaveThree() {
   figcaption.textContent = "A cavernous room filled with gems and relics from a forgotten age, at the center, a crystalline pool and a magic orb shimmered, illuminating the room.";
 
   // Create the buttons
-  createButton(1, "east", createSceneCaveDeath, storyButtons);
-  createButton(6, "movecloser", createSceneFinal, storyButtons);
+  createButton(1, "east", createSceneCaveDeath, buttonContainer);
+  createButton(6, "movecloser", createSceneFinal, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneCaveThree";
   setScene(gameState.scene);
+
+  // Display items 
+  updateDisplay();
 }
 
 /**
@@ -1010,12 +1133,15 @@ function createSceneCaveDeath() {
   figcaption.textContent = "A kaleidoscope of colors paints the landscape, where nature's beauty knows no bounds. The earth, a canvas of infinite hues, is adorned with the brushstrokes of the divine.";
   
   // Create the buttons for the Scene
-  createButton(7, "retry", createSceneAltMain, storyButtons);
-  createButton(8, "new", loadStartScene, storyButtons);
+  createButton(7, "retry", createSceneAltMain, buttonContainer);
+  createButton(8, "new", loadStartScene, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneCaveDeath";
   setScene(gameState.scene);
+
+  // Display items 
+  updateDisplay();
 }
 
 /**
@@ -1078,7 +1204,7 @@ function createSceneFinal() {
   figcaption.textContent = "A wise, ancient gnome, his beard as white as winter's frost, sits enthroned amidst a dazzling array of jewels. The walls of the cavern, adorned with intricate carvings and shimmering crystals, reflect the light of the countless gems.";
   
   // Create the buttons for the Scene
-  createButton(10, "playagain", loadStartScene, storyButtons);
+  createButton(10, "playagain", loadStartScene, buttonContainer);
 
-  localStorage.clear();
+  clearGameState();
 }
