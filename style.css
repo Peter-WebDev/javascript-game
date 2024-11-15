@@ -4,7 +4,8 @@
   --clr-neutral-300: hsl(45, 10%, 50%);
   --clr-neutral-400: hsl(0, 0%, 20%);
   --clr-neutral-500: hsl(0, 0%, 2%);
-  --clr-accent-focus: hsl(46, 100%, 50%);
+  --clr-accent-accent: hsl(101, 49%, 28%);
+  --clr-accent-focus: hsl(56, 90%, 48%);
 }
 
 * {
@@ -14,7 +15,7 @@
 
 /* width */
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 3px;
 }
 
 /* Track */
@@ -24,7 +25,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--clr-accent-focus);
+  background: var(--clr-accent-accent);
 }
 
 /* Handle on hover */
@@ -129,8 +130,8 @@ ul {
   gap: 0.25rem;
   padding: 0.5em 0.75em;
   border-radius: 1rem;
-  color: var(--clr-neutral-400);
-  background: var(--clr-accent-focus);
+  color: var(--clr-neutral-200);
+  background: var(--clr-accent-accent);
 }
 
 figure {
@@ -229,6 +230,7 @@ figure {
   gap: 0.4rem;
   height: 425px;
   margin-bottom: 0.25em;
+  padding-right: 2em;
   overflow-y: auto;
 }
 
