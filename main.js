@@ -35,7 +35,7 @@ const audioTracks = gameState.audio.map(audioFile => new Audio(audioFile));
 /**
  * Array of button names
  */
-const buttonNames = ["West", "East", "North", "South", "Pick up", "Pay", "Move closer", "Retry", "New character", "Start", "Play again"];
+const buttonNames = ["West", "East", "North", "South", "Pick up", "Give coins", "Touch Orb", "Retry", "New character", "Start", "Play again"];
 
 /**
  * Set name and save state to local storage
@@ -182,6 +182,22 @@ function createInventoryButton(index, action, value, container) {
       });
       break;
     case "decreaseMoneyTwo":
+      button.addEventListener("click", () => {
+        decreaseMoney(value);
+        // Create a new button after the action
+        createButton(6, "movecloser", createSceneFinal, container);
+        button.remove();
+      });
+      break;
+    case "decreaseMoneyThree":
+      button.addEventListener("click", () => {
+        decreaseMoney(value);
+        // Create a new button after the action
+        createButton(1, "east", createSceneCaveTwo, container);
+        button.remove();
+      });
+      break;
+     case "decreaseMoneyFour":
       button.addEventListener("click", () => {
         decreaseMoney(value);
         // Create a new button after the action
@@ -637,7 +653,7 @@ function createSceneForestOne() {
   storySection.className = "storyText";
 
   // Text to be split
-  const text = `As you walked further into the forest, you couldn't shake the feeling that you were being watched. The trees seemed to lean in, their gnarled branches reaching out like skeletal fingers. The sunlight, once warm and inviting, now seemed to cast an eerie glow on the forest floor.\nAs you start to quickened your pace, hoping to escape the oppressive silence, you see a hooded figure standing in the shadows. The figure stepped into the light, revealing a merchant with a wide grin and a bag full of peculiar items.\n"What's your name?" murmured the merchant, while he showed you a variety of magical trinkets, potions, and weapons.\n"You can call me ` + storyName + `" you answered.\nThe merchant just nodded while speaking of ancient relics, lost treasures, and forbidden knowledge. "I'm looking for the Magic Orb, do you know the way?".\n"For some gold coins, I sure will..." the merchant said, while stirring the camp fire. However, the merchant's appearance in such a remote and dangerous place was unsettling.`;
+  const text = `As you walked further into the forest, you couldn't shake the feeling that you were being watched. The trees seemed to lean in, their gnarled branches reaching out like skeletal fingers. The sunlight, once warm and inviting, now seemed to cast an eerie glow on the forest floor.\nAs you start to quickened your pace, hoping to escape the oppressive silence, you see a hooded figure standing in the shadows. The figure stepped into the light, revealing a merchant with a wide grin and a bag full of peculiar items.\n"What's your name?" murmured the merchant, while he showed you a variety of magical trinkets, potions, and weapons.\n"You can call me ` + storyName + `" you answered.\nThe merchant just nodded while speaking of ancient relics, lost treasures, and forbidden knowledge.\n"I'm looking for the Magic Orb, do you know the way?" you asked firmly.\n"For some gold coins, I sure will... " the merchant said silently, while stirring the camp fire. However, the merchant's appearance in such a remote and dangerous place was unsettling.`;
   text.id = "storyText";
 
   // The Split function using .split() and a for loop creating separate paragraphs
@@ -747,7 +763,7 @@ function createSceneForestTwo() {
   // Create the buttons for scene
   createButton(2, "north", createSceneForestOne, buttonContainer);
   createButton(3, "south", createSceneForestThree, buttonContainer);
-  createInventoryButton(4, "addItem", 2, buttonContainer);
+  createInventoryButton(4, "addItem", "Mushroom", buttonContainer);
 
   gameState.scene = "SceneForestTwo";
   setScene(gameState.scene);
@@ -818,7 +834,6 @@ function createSceneForestThree() {
   
   // Create the buttons for scene
   createButton(2, "north", createSceneForestTwo, buttonContainer);
-  createButton(6, "movecloser", createSceneFinal, buttonContainer);
   createInventoryButton(5, "decreaseMoneyTwo", 5, buttonContainer);
 
   // Save scene state
@@ -964,7 +979,7 @@ figcaption.textContent = "A mischievous goblin, his skin the color of moss, emer
 // Create the buttons
 createButton(0, "west", createSceneMain, buttonContainer);
 createButton(3, "east", createSceneCaveDeath, buttonContainer);
-createButton(5, "buy", createSceneCaveTwo, buttonContainer);
+createInventoryButton(5, "decreaseMoneyThree", 10, buttonContainer);
 
 // Save scene state
 gameState.scene = "SceneCaveOne";
@@ -1108,7 +1123,7 @@ function createSceneCaveThree() {
 
   // Create the buttons
   createButton(1, "east", createSceneCaveDeath, buttonContainer);
-  createButton(6, "movecloser", createSceneFinal, buttonContainer);
+  createInventoryButton(5, "decreaseMoneyFour", 10, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneCaveThree";
@@ -1230,7 +1245,7 @@ function createSceneFinal() {
   const question = document.createElement("h3");
   question.id = "storyQuestion";
   question.className = "storyquestion";
-  question.textContent = "What's your next move " + storyName + "?"; 
+  question.textContent = "Ready for another adventure,  " + storyName + "?"; 
 
   // Create Button Container
   const buttonContainer = document.createElement("div");
@@ -1252,5 +1267,5 @@ function createSceneFinal() {
   // Create the buttons for the Scene
   createButton(10, "playagain", loadStartScene, buttonContainer);
 
-  clearGameState();
+  localStorage.clear();
 }
