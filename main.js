@@ -33,6 +33,11 @@ let gameState = {
 const audioTracks = gameState.audio.map(audioFile => new Audio(audioFile));
 
 /**
+ * Array of button names
+ */
+const buttonNames = ["West", "East", "North", "South", "Pick up", "Pay", "Move closer", "Retry", "New character", "Start", "Play again"];
+
+/**
  * Set name and save state to local storage
  * @param {string} name Username in the game to be set
  */
@@ -73,37 +78,37 @@ function setScene(name) {
  */
 function updateDisplay() {
   const inventoryContainer = document.getElementById("inventory-container");
-  inventoryContainer.innerHTML = ""; // Clear the content to rebuild
 
-  const itemList = createItemList(gameState);
-  inventoryContainer.appendChild(itemList);
-  saveGameState();
-}
+  // Ensure the ul element exists
+  let itemList = inventoryContainer.querySelector("ul");
+  if (!itemList) {
+    itemList = document.createElement("ul");
+    itemList.classList.add("item-list");
+    inventoryContainer.appendChild(itemList);
+  }
 
-/**
- * Creates a list of items containing the player's inventory(items) and money info 
- * @param {object} gameState Current game state object of money and inventory data
- * @property {number} gameState.money Amount of money the player has
- * @property {object} gameState.inventory Objects (items) the player has where keys are item name and value is the amount
- * @returns {HTMLElement} Created list element containing money and items
- */
-function createItemList(gameState) {
-  const itemList = document.createElement("ul");
-  itemList.classList.add("item-list");
+  // Update money item
+  const moneyItem = itemList.querySelector("li:first-child");
+  if (!moneyItem) {
+    const moneyItem = document.createElement("li");
+    moneyItem.textContent = "Coins (" + gameState.money + ")";
+    itemList.appendChild(moneyItem);
+  } else {
+    moneyItem.textContent = "Coins (" + gameState.money + ")";
+  }
 
-  // Display amount of money
-  const moneyItem = document.createElement("li");
-  moneyItem.textContent = "Coins (" + gameState.money + ")";
-  itemList.appendChild(moneyItem);
+  // Clear inventory items (except the first one)
+  const inventoryItems = itemList.querySelectorAll("li:not(:first-child)");
+  inventoryItems.forEach(item => item.remove());
 
-  //Display inventory items
+  // Add new inventory items
   for (const [item, quantity] of Object.entries(gameState.inventory)) {
     const inventoryItem = document.createElement("li");
     inventoryItem.textContent = `${item} (${quantity})`;
     itemList.appendChild(inventoryItem);
-  };
+  }
 
-  return itemList;
+  saveGameState();
 }
 
 /**
@@ -112,8 +117,8 @@ function createItemList(gameState) {
  */
 function increaseMoney(amount) {
   gameState.money += amount;
-  updateDisplay();
   saveGameState();
+  updateDisplay();
 }
 
 /**
@@ -124,8 +129,8 @@ function decreaseMoney(amount) {
   // Tries to decrease money, but also prevent negative number
   if (gameState.money >= amount) {
     gameState.money -= amount;
-    updateDisplay();
     saveGameState();
+    updateDisplay();
   } else {
     console.log("Not enough money");
     alert("Not enough money");
@@ -138,8 +143,8 @@ function decreaseMoney(amount) {
  */
 function addItemToInventory(item) {
   gameState.inventory[item] = (gameState.inventory[item] || 0) + 1;
-  updateDisplay();
   saveGameState();
+  updateDisplay();
 }
 
 /**
@@ -155,6 +160,34 @@ function removeItemFromInventory(item) {
     console.log("Item not found in inventory");
     alert("Item not found in inventory");
   }
+}
+
+function createInventoryButton(index, action, value, container) {
+  const button = document.createElement("button");
+  button.classList.add("btn");
+  button.textContent = buttonNames[index];
+
+  switch (action) {
+    case "increaseMoney":
+      button.addEventListener("click", () => {
+        increaseMoney(value);
+      });
+      break;
+    case "decreaseMoney":
+      button.addEventListener("click", () => {
+        decreaseMoney(value);
+      });
+      break;
+    case "addItem":
+      button.addEventListener("click", () => {
+        addItemToInventory(value);
+      });
+      break;
+    default:
+      console.error("Invalid action", action);
+  }
+
+  container.appendChild(button);
 }
 
 /** 
@@ -322,15 +355,20 @@ function fadeOutAudio(audio, duration) {
  * @param {Function} onClickNextFunction Sets the next function to be called
  * @param {HTMLElement} container Sets which container to add the button to
  */
-function createButton(index, id, onClickNextFunction, container) {
-  const buttonNames = ["West", "East", "North", "South", "Pick up", "Pay", "Move closer", "Retry", "New character", "Start", "Play again"];
-  const button = document.createElement("button");
-  button.textContent = buttonNames[index];
-  button.id = id;
-  button.addEventListener("click", onClickNextFunction);
-  button.classList.add("btn");
-  container.appendChild(button);
-}
+  function createButton(index, id, onClickFunction, container) {
+    const button = document.createElement("button");
+    button.textContent = buttonNames[index];
+    button.id = id;
+    
+    if (typeof onClickFunction === 'function') {
+      button.addEventListener("click", onClickFunction);
+    } else {
+      console.error("Provided onClickFunction is not a function!");
+    }
+    
+    button.classList.add("btn");
+    container.appendChild(button);
+  }
 
 /**
  * Create page header element
@@ -624,8 +662,9 @@ function createSceneForestOne() {
 
   // Create the buttons
   createButton(1, "east", createSceneMain, buttonContainer);
-  createButton(3, "south", createSceneForestTwo, buttonContainer);
-  createButton(5, "buyitem", createSceneForestDeath, buttonContainer);
+  createInventoryButton(5, "decreaseMoney", 10, buttonContainer);
+
+  
 
   // Save scene state
   gameState.scene = "SceneForestOne";
