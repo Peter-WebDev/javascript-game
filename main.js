@@ -73,7 +73,7 @@ function setScene(name) {
  * Update display of money and inventory
  */
 function updateDisplay() {
-  const inventoryContainer = document.getElementById("storyBook");
+  const inventoryContainer = document.getElementById("inventory-container");
   inventoryContainer.innerHTML = ""; // Clear the content to rebuild
 
   const itemList = createItemList(gameState);
@@ -88,9 +88,6 @@ function updateDisplay() {
  * @returns {HTMLElement} Created list element containing money and items
  */
 function createItemList(gameState) {
-  const itemListContainer = document.createElement("div");
-  itemListContainer.classList.add("item-list-container"); //  Add class to the container
-  
   const itemList = document.createElement("ul");
   itemList.classList.add("item-list");
 
