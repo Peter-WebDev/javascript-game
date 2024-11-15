@@ -80,6 +80,7 @@ h3 {
 }
 
 .book {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
   gap: 2rem;
@@ -105,6 +106,31 @@ h3 {
   to {
     opacity: 1;
   }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#inventory-container {
+  position: absolute;
+  z-index: 10;
+  top: -20px;
+  left: 20px;
+}
+
+.item-list {
+  display: flex;
+  font-weight: 700;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5em 0.75em;
+  border-radius: 1rem;
+  color: var(--clr-neutral-400);
+  background: var(--clr-accent-focus);
 }
 
 figure {
