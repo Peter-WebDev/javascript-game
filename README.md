@@ -4,9 +4,11 @@
 
 Skapa en interaktiv upplevelse där användaren kan göra förändringar i en värld.
 
-## The Forest - An interactive tale from the woods
+## The Forest - A tale from the woods
 
 Uppvuxen relativt nära Tiveden (sedan 1983 en nationalpark som ligger i skogsområdet Tiveden) med dess tunga skog, grottor och stora stenblock kombinerat med sagor från bland annat [Bland Tomtar och Troll](https://sv.wikipedia.org/wiki/Bland_tomtar_och_troll) kändes det självklart att skapa en interaktiv upplevese på det temat.
+
+Länk till Github Pages [The Forest - A tale from the woods](https://peter-webdev.github.io/javascript-game/)
 
 ## Utmaningar
 
