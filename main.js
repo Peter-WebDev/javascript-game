@@ -18,7 +18,6 @@ let gameState = {
   money: 50,
   inventory: {
     "Knife": 1,
-    "Long sword": 1, 
   },
   scene: "StartScene",
   audio: [
@@ -78,6 +77,7 @@ function updateDisplay() {
 
   const itemList = createItemList(gameState);
   inventoryContainer.appendChild(itemList);
+  saveGameState();
 }
 
 /**
