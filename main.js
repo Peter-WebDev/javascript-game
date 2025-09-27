@@ -16,6 +16,12 @@ window.addEventListener("DOMContentLoaded", main);
 let gameState = {
   name: "",
   money: 50,
+  unlockedPaths: {
+    forestPathOne: false,
+    forestPathTwo: false,
+    cavePathOne: false,
+    cavePathTwo: false,
+  },
   inventory: {
     "Knife": 1,
   },
@@ -23,8 +29,42 @@ let gameState = {
   audio: [
     "assets/music/tawny-owl-in-molkom-sweden.mp3",
     "assets/music/dark-mystery-cinematic-melody.mp3"
-  ]
+  ],
+  isMusicPlaying: false,
+  currentTrack: 0  // 0 = tawny-owl, 1 = dark-mystery
 };
+
+function createMusicToggle(container) {
+  const musicBtn = document.createElement("button");
+  musicBtn.textContent = gameState.isMusicPlaying ? "🔊 Sound Off" : "🔈 Sound On";
+  musicBtn.classList.add("btn", "music-toggle");
+
+  musicBtn.setAttribute("aria-label", gameState.isMusicPlaying ? "Turn music off" : "Turn music on");
+  musicBtn.setAttribute("aria-pressed", gameState.isMusicPlaying);
+
+  musicBtn.addEventListener("click", () => {
+    gameState.isMusicPlaying = !gameState.isMusicPlaying;
+    
+    if (gameState.isMusicPlaying) {
+      musicBtn.textContent = "🔊 Sound Off";
+      musicBtn.setAttribute("aria-label", "Turn music off");
+      playLoopAudio(gameState.currentTrack);
+    } else {
+      musicBtn.textContent = "🔈 Sound On";
+      musicBtn.setAttribute("aria-label", "Turn music on");
+      audioTracks.forEach(track => {
+        track.pause();
+        track.currentTime = 0;
+      });
+    }
+    
+    musicBtn.setAttribute("aria-pressed", gameState.isMusicPlaying);
+    saveGameState();
+  });
+
+  container.appendChild(musicBtn);
+  return musicBtn;
+}
 
 /**
  * Create array of Audio objects from the files listed in the game state audio property
@@ -163,6 +203,40 @@ function removeItemFromInventory(item) {
 }
 
 function createInventoryButton(index, action, value, container) {
+  // Check if this path is already unlocked
+  let isPathUnlocked = false;
+  switch (action) {
+    case "decreaseMoneyOne":
+      isPathUnlocked = gameState.unlockedPaths.forestPathOne;
+      break;
+    case "decreaseMoneyTwo":
+      isPathUnlocked = gameState.unlockedPaths.forestPathTwo;
+      break;
+    case "decreaseMoneyThree":
+      isPathUnlocked = gameState.unlockedPaths.cavePathOne;
+      break;
+    case "decreaseMoneyFour":
+      isPathUnlocked = gameState.unlockedPaths.cavePathTwo;
+      break;
+  }
+
+  // If path is already unlocked, create the corresponding navigation button instead
+  if (isPathUnlocked) {
+    switch (action) {
+      case "decreaseMoneyOne":
+        createButton(3, "south", createSceneForestTwo, container);
+        break;
+      case "decreaseMoneyTwo":
+      case "decreaseMoneyFour":
+        createButton(6, "movecloser", createSceneFinal, container);
+        break;
+      case "decreaseMoneyThree":
+        createButton(1, "east", createSceneCaveTwo, container);
+        break;
+    }
+    return;
+  }
+
   const button = document.createElement("button");
   button.classList.add("btn");
   button.textContent = buttonNames[index];
@@ -176,7 +250,9 @@ function createInventoryButton(index, action, value, container) {
     case "decreaseMoneyOne":
       button.addEventListener("click", () => {
         decreaseMoney(value);
-        // Create a new button after the action
+        gameState.unlockedPaths.forestPathOne = true;
+        saveGameState();
+        updateDisplay();
         createButton(3, "south", createSceneForestTwo, container);
         button.remove();
       });
@@ -184,7 +260,9 @@ function createInventoryButton(index, action, value, container) {
     case "decreaseMoneyTwo":
       button.addEventListener("click", () => {
         decreaseMoney(value);
-        // Create a new button after the action
+        gameState.unlockedPaths.forestPathTwo = true;
+        saveGameState();
+        updateDisplay();
         createButton(6, "movecloser", createSceneFinal, container);
         button.remove();
       });
@@ -192,7 +270,9 @@ function createInventoryButton(index, action, value, container) {
     case "decreaseMoneyThree":
       button.addEventListener("click", () => {
         decreaseMoney(value);
-        // Create a new button after the action
+        gameState.unlockedPaths.cavePathOne = true;
+        saveGameState();
+        updateDisplay();
         createButton(1, "east", createSceneCaveTwo, container);
         button.remove();
       });
@@ -200,7 +280,9 @@ function createInventoryButton(index, action, value, container) {
      case "decreaseMoneyFour":
       button.addEventListener("click", () => {
         decreaseMoney(value);
-        // Create a new button after the action
+        gameState.unlockedPaths.cavePathTwo = true;
+        saveGameState();
+        updateDisplay();
         createButton(6, "movecloser", createSceneFinal, container);
         button.remove();
       });
@@ -208,7 +290,6 @@ function createInventoryButton(index, action, value, container) {
     case "addItem":
       button.addEventListener("click", () => {
         addItemToInventory(value);
-        button.remove();
       });
       break;
     default:
@@ -226,6 +307,27 @@ function main() {
   if (savedState) {
     gameState = savedState;
   }
+
+  // Create music toggle in the dedicated container
+  const musicContainer = document.getElementById("musicControl");
+  createMusicToggle(musicContainer);
+
+  // If past start scene, ensure second track is playing (track 1)
+  if (gameState.scene !== "StartScene" && gameState.scene !== "") {
+    gameState.currentTrack = 1;
+    if (gameState.isMusicPlaying) {
+      fadeOutAudio(audioTracks[0], 800);
+      playLoopAudio(1);
+    }
+  } else {
+    // At start scene, ensure first track is playing (track 0)
+    gameState.currentTrack = 0;
+    if (gameState.isMusicPlaying) {
+      fadeOutAudio(audioTracks[1], 800);
+      playLoopAudio(0);
+    }
+  }
+
   loadScene(gameState.scene);
 }
 
@@ -240,6 +342,9 @@ function loadScene(sceneName) {
       break;
     case "SceneAltMain":
       createSceneAltMain();
+      break;
+    case "SceneAltMainForestEdge":
+      createSceneAltMainForestEdge();
       break;
     case "SceneForestOne":
       createSceneForestOne();
@@ -324,8 +429,65 @@ function loadGameState() {
   return null;
 }
 
+/**
+ * Reset game state in memory and optionally keep the player name.
+ * @param {{keepName?: boolean}} [opts]
+ */
+function resetGameState(opts = {}) {
+  const keepName = !!opts.keepName;
+  const name = keepName ? (gameState.name || "") : "";
+  const wasPlaying = gameState.isMusicPlaying;
+
+  gameState = {
+    name: name,
+    money: 50,
+    unlockedPaths: {
+      forestPathOne: false,
+      forestPathTwo: false,
+      cavePathOne: false,
+      cavePathTwo: false,
+    },
+    inventory: {
+      "Knife": 1,
+    },
+    scene: "StartScene",
+    audio: [
+      "assets/music/tawny-owl-in-molkom-sweden.mp3",
+      "assets/music/dark-mystery-cinematic-melody.mp3"
+    ],
+    isMusicPlaying: wasPlaying,
+    currentTrack: 0  // Reset to start track (0 = tawny-owl)
+  };
+  // Persist the fresh state (or cleared state)
+  saveGameState();
+  updateDisplay();
+}
+
+/**
+ * Clear persisted game state and reset in-memory state (completely).
+ */
 function clearGameState() {
   localStorage.removeItem("gameState");
+  // Reset runtime state as well
+  resetGameState({ keepName: false });
+}
+
+/**
+ * Start a completely new game (clear name too) and go to start scene.
+ */
+function newGame() {
+  resetGameState({ keepName: false });
+  loadStartScene();
+}
+
+/**
+ * Restart game but keep the current name, then go to the main scene.
+ */
+function playAgainSameName() {
+  resetGameState({ keepName: true });
+  // Choose which scene you want the player to see next when replaying.
+  // I used the alternate main scene to mimic previous "retry" behaviour.
+  createSceneAltMain();
 }
 
 /**
@@ -357,23 +519,27 @@ function playLoopAudio(index) {
  * Fade out audio and pause
  * @param {HTMLAudioElement} audio The audio track index in gameState
  * @param {number} duration How long the fade should be in ms
+ * @returns {Promise} Resolves when fade out is complete
  */
 function fadeOutAudio(audio, duration) {
-  const interval = 50;
-  const steps = duration / interval;
-  const volumeStep = audio.volume / (steps + 1);
+  return new Promise(resolve => {
+    const interval = 50;
+    const steps = duration / interval;
+    const volumeStep = audio.volume / (steps + 1);
 
-  let currentVolume = audio.volume;
-  const fadeInterval = setInterval(() => {
-    audio.volume = Math.max(0, audio.volume - volumeStep);
-    currentVolume = audio.volume;
-    
-    if (audio.volume === 0) {
-      clearInterval(fadeInterval);
-      audio.pause();
-      audio.volume = 0.8;
-    }
-  }, interval);
+    let currentVolume = audio.volume;
+    const fadeInterval = setInterval(() => {
+      audio.volume = Math.max(0, audio.volume - volumeStep);
+      currentVolume = audio.volume;
+      
+      if (audio.volume === 0) {
+        clearInterval(fadeInterval);
+        audio.pause();
+        audio.volume = 0.8;
+        resolve();
+      }
+    }, interval);
+  });
 }
 
 /**
@@ -448,11 +614,22 @@ function loadStartScene() {
   const book = document.getElementById("storyBook");
   book.style.display = "none";
 
+  // Handle audio transition
+  if (gameState.isMusicPlaying) {
+    // Fade track 1 if playing
+    fadeOutAudio(audioTracks[1], 1000).then(() => {
+      audioTracks[1].pause();
+      audioTracks[1].currentTime = 0;
+      
+      gameState.currentTrack = 0;
+      // Start track 0
+      playLoopAudio(0);
+    });
+  }
+
   // Create form
   const form = document.createElement("form");
   form.id = "formStoryName";
-
-  pageHeader.append(form);
 
   // Create label element
   const label = document.createElement("label");
@@ -467,6 +644,8 @@ function loadStartScene() {
   inputField.id = "storyName";
   inputField.name = "storyName";
   form.appendChild(inputField);
+
+  pageHeader.append(form);
 
   createButton(9, "storyStart", saveUserInfo, form);
   playLoopAudio(0);
@@ -550,7 +729,9 @@ function createSceneMain() {
   
   // Audio fade out and play
   fadeOutAudio(audioTracks[0], 2000);
+  gameState.currentTrack = 1;
   playLoopAudio(1);
+  saveGameState();
   
   // Display items 
   updateDisplay();
@@ -629,6 +810,78 @@ function createSceneAltMain() {
 }
 
 /**
+ * Scene Alt Main Forest Edge
+ * @see createPageHeaderNoAnimation
+ * @see createButton
+ * @see setScene
+ */
+function createSceneAltMainForestEdge() {
+  createPageHeaderNoAnimation();
+  const storyHeader = document.getElementById("storyHeader");
+  storyHeader.innerHTML = "";
+
+  // Get the characters name
+  const storyName = loadUserInfo();
+
+  // Create h2 element and add the char name to the textContent
+  const title = document.createElement("h2");
+  title.id = "storyTitle";
+  title.className = "storytitle";
+  title.textContent = storyName + ", you find yourself back at The Forest's Edge";
+
+  // Create section for the paragraphs
+  const storySection = document.createElement("section");
+  storySection.className = "storyText";
+
+  // Text to be split
+  const text = 'Once again the familiar scent of pine needles and damp earth fills your nostrils, bringing back memories of your previous journey.\nThe towering trees seem to recognize you, their branches swaying gently as if in greeting. The same paths stretch before you - to the west, the winding trail into the depths of the forest, and to the east, the narrow passage between the weathered rocks.\nYou can\'t help but wonder if different choices might lead to different outcomes this time. The forest holds many secrets, and not all paths have been explored.\nThe distant howl of a wolf and the ethereal chirping of unseen creatures remind you of the dangers - and treasures - that await in these mystical woods.';
+  text.id = "storyText";
+
+  // The Split function using .split() and a for loop creating separate paragraphs
+  const sentences = text.split(/\n/);
+  for (let i = 0; i < sentences.length; i++) {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = sentences[i];
+    paragraph.className = "storyParagraph";
+    storySection.appendChild(paragraph);
+  }
+
+  // Create element for question
+  const question = document.createElement("h3");
+  question.id = "storyQuestion";
+  question.className = "storyquestion";
+  question.textContent = "Which way should you go " + storyName + "?";
+
+  // Create Button Container
+  const buttonContainer = document.createElement("div");
+  buttonContainer.id = "storyButtons";
+  buttonContainer.className = "buttoncontainer";
+
+  // Append to container storyHeader
+  storyHeader.append(title, storySection, question, buttonContainer);
+
+  // Change story image
+  const storyImage = document.getElementById("storyImage");
+  storyImage.src = "assets/image/hazy-sunlight-shines-through-a-forest-with-large-rocks.webp";
+
+  // Create text for figcaption
+  const figcaption = document.getElementById("storyCaption");
+  figcaption.className = "figcaption";
+  figcaption.textContent = "Rocky terrain meets towering trees, the fog adding a mystical touch. The land, a tapestry of stone and green, is shrouded in a veil of mist.";
+  
+  // Create the buttons
+  createButton(0, "west", createSceneForestOne, buttonContainer);
+  createButton(1, "east", createSceneCaveOne, buttonContainer);
+
+  // Save scene state
+  gameState.scene = "SceneAltMainForestEdge";
+  setScene(gameState.scene);
+
+  // Display items 
+  updateDisplay();
+}
+
+/**
  * Scene Forest One
  * @see createPageHeaderNoAnimation
  * @see createButton
@@ -690,6 +943,7 @@ function createSceneForestOne() {
 
   // Create the buttons
   createButton(1, "east", createSceneMain, buttonContainer);
+  createButton(2, "north", createSceneForestDeath, buttonContainer);
   createInventoryButton(5, "decreaseMoneyOne", 5, buttonContainer);
 
   // Save scene state
@@ -904,9 +1158,9 @@ function createSceneForestDeath() {
   figcaption.className = "figcaption";
   figcaption.textContent = "A kaleidoscope of colors paints the landscape, where nature's beauty knows no bounds. The earth, a canvas of infinite hues, is adorned with the brushstrokes of the divine.";
   
-  // Create the buttons for the Scene
-  createButton(7, "retry", createSceneAltMain, buttonContainer);
-  createButton(8, "new", loadStartScene, buttonContainer);
+  // Use helper wrappers so the saved state is cleared/reset correctly
++ createButton(7, "retry", playAgainSameName, buttonContainer);
++ createButton(8, "new", newGame, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneForestDeath";
@@ -1014,7 +1268,7 @@ function createSceneCaveTwo() {
   storySection.className = "storyText";
   
   // Text to be split
-  const text = `The goblin led you deeper into the labyrinth. The path became increasingly treacherous, with narrow passages and deep chasms. The air grew colder, and an eerie silence hung over the place. As you ventured further, the walls of the labyrinth began to close in, and the darkness grew more intense. You could feel a sense of dread creeping over you, a premonition of danger lurking in the shadows. Suddenly, the goblin stopped at a fork in the path.\n"Well, this is as far as I go..." it said, pointing towards a dimly lit passage. "The rest is up to you. Good luck, ` + storyName + `".\nWith a mischievous grin, the goblin vanished into the shadows. You hesitated for a moment, studying the two paths before you. One led east deeper into the darkness, while the other seemed to descend south towards a distant light, and a cave entrance.`;
+  const text = `The goblin led you deeper into the labyrinth. The path became increasingly treacherous, with narrow passages and deep chasms. The air grew colder, and an eerie silence hung over the place. As you ventured further, the walls of the labyrinth began to close in, and the darkness grew more intense. You could feel a sense of dread creeping over you, a premonition of danger lurking in the shadows. Suddenly, the goblin stopped at a fork in the path.\n"Well, this is as far as I go..." it said, pointing towards a dimly lit passage. "The rest is up to you. Good luck, ` + storyName + `".\nWith a mischievous grin, the goblin vanished into the shadows. You hesitated for a moment, studying the paths before you. One led east deeper into the darkness, while another seemed to descend south towards a distant light, and a cave entrance. The third path, to the north, seemed to wind back towards the edge of the forest.`;
   text.id = "storyText";
 
   // The Split function using .split() and a for loop creating separate paragraphs
@@ -1051,6 +1305,7 @@ function createSceneCaveTwo() {
 
   // Create the buttons
   createButton(1, "east", createSceneCaveDeath, buttonContainer);
+  createButton(2, "north", createSceneAltMainForestEdge, buttonContainer);
   createButton(3, "south", createSceneCaveThree, buttonContainer);
 
   // Save scene state
@@ -1194,8 +1449,8 @@ function createSceneCaveDeath() {
   figcaption.textContent = "A kaleidoscope of colors paints the landscape, where nature's beauty knows no bounds. The earth, a canvas of infinite hues, is adorned with the brushstrokes of the divine.";
   
   // Create the buttons for the Scene
-  createButton(7, "retry", createSceneAltMain, buttonContainer);
-  createButton(8, "new", loadStartScene, buttonContainer);
+  createButton(7, "retry", playAgainSameName, buttonContainer);
++ createButton(8, "new", newGame, buttonContainer);
 
   // Save scene state
   gameState.scene = "SceneCaveDeath";
@@ -1265,7 +1520,7 @@ function createSceneFinal() {
   figcaption.textContent = "A wise, ancient gnome, his beard as white as winter's frost, sits enthroned amidst a dazzling array of jewels. The walls of the cavern, adorned with intricate carvings and shimmering crystals, reflect the light of the countless gems.";
   
   // Create the buttons for the Scene
-  createButton(10, "playagain", loadStartScene, buttonContainer);
-
-  localStorage.clear();
+  // Play again: keep name but reset money/inventory
++  createButton(10, "playagain", playAgainSameName, buttonContainer);
++  createButton(8, "new", newGame, buttonContainer);
 }

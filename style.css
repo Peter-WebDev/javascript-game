@@ -80,6 +80,24 @@ h3 {
   line-height: 1.1;
 }
 
+.music-control {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.music-toggle {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.music-toggle:focus-visible {
+  outline: 3px solid var(--clr-accent-focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
 .book {
   position: relative;
   display: grid;
