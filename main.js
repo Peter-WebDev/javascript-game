@@ -36,7 +36,7 @@ let gameState = {
 
 function createMusicToggle(container) {
   const musicBtn = document.createElement("button");
-  musicBtn.textContent = gameState.isMusicPlaying ? "🔊 Sound Off" : "🔈 Sound On";
+  musicBtn.textContent = gameState.isMusicPlaying ? "🔊" : "🔈";
   musicBtn.classList.add("btn", "music-toggle");
 
   musicBtn.setAttribute("aria-label", gameState.isMusicPlaying ? "Turn music off" : "Turn music on");
@@ -46,11 +46,11 @@ function createMusicToggle(container) {
     gameState.isMusicPlaying = !gameState.isMusicPlaying;
     
     if (gameState.isMusicPlaying) {
-      musicBtn.textContent = "🔊 Sound Off";
+      musicBtn.textContent = "🔊";
       musicBtn.setAttribute("aria-label", "Turn music off");
       playLoopAudio(gameState.currentTrack);
     } else {
-      musicBtn.textContent = "🔈 Sound On";
+      musicBtn.textContent = "🔈";
       musicBtn.setAttribute("aria-label", "Turn music on");
       audioTracks.forEach(track => {
         track.pause();
